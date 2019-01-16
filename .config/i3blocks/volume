@@ -1,0 +1,31 @@
+#!/bin/bash
+
+
+STEP="${1:-5}"
+SINK="--sink ${2:0}"
+
+
+#------------------------------------------------------------------------
+
+
+
+format() {
+  volume_state=`pamixer $SINK $SOURCE --get-volume`
+  mute_state=`pamixer $SINK $SOURCE --get-mute`
+  perl_filter='if (/(\d+) (true|false)/)'
+  perl_filter+='{CORE::say $2 eq "true" ? "MUTE" : "'
+  # If dB was selected, print that instead
+  perl_filter+=$([[ $STEP = *dB ]] && echo '$3' || echo '$1')
+  perl_filter+='"; exit}'
+  echo $volume_state $mute_state | perl -ne "$perl_filter"
+}
+
+#------------------------------------------------------------------------
+
+case $BLOCK_BUTTON in
+  3) pamixer $SINK -t ;;  # right click, toggle mute/unmute
+  4) pamixer $SINK -u -i ${STEP} ;; # scroll up, increase
+  5) pamixer $SINK -u -d ${STEP} ;; # scroll down, decrease
+esac
+
+format

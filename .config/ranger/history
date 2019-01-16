@@ -1,0 +1,50 @@
+!als
+! als
+shell 
+shell als
+rename sanfranciscofont.ru_sanfranciscofontwindows.zip
+search sanf
+search SF
+tab_new 
+open_with file
+open_with file|less
+
+open_with fontview
+con
+eval fm.rifle.reload_config()
+search ttf
+search gtk2
+open_with q
+search KA
+search A
+search ka
+search jpg
+search iris
+rename iris_dark_gtk_theme__v1_10_by_thevirtualdragon-d73sf8i.tar.gz
+search the
+search num
+rename Numix
+search pic
+find 
+open_with f
+open_with e
+cd  .config
+delete
+cd  ~/.themes
+cd  
+shell lim
+open_with 2
+search slim
+cd  /usr/share/slim
+help sudo
+help
+search jre
+open_with 1
+copy
+cd 
+rename segoe
+open_with 
+cd ~/.themes
+open_with sxiv
+open_with sxiv -- 
+shell xiv 

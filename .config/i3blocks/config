@@ -1,0 +1,141 @@
+# i3blocks config file
+#
+# Please see man i3blocks for a complete reference!
+# The man page is also hosted at http://vivien.github.io/i3blocks
+#
+# List of valid properties:
+#
+# align
+# color
+# command
+# full_text
+# instance
+# interval
+# label
+# min_width
+# name
+# separator
+# separator_block_width
+# short_text
+# signal
+# urgent
+
+# Global properties
+#
+# The top properties below are applied to every block, but can be overridden.
+# Each block command defaults to the script name to avoid boilerplate.
+command=/usr/libexec/i3blocks/$BLOCK_NAME
+separator_block_width=15
+#separator=true
+#markup=none
+
+[weather]
+command=~/.config/i3blocks/weather
+interval=1800
+color=#e97ac8
+
+# CPU usage
+#
+# The script may be called with -w and -c switches to specify thresholds,
+# see the script for details.
+[cpu_usage]
+command=~/.config/i3blocks/$BLOCK_NAME -d 0
+label=CPU
+interval=1
+min_width=CPU 100%
+separator=false
+align=center
+
+
+[cpu_temp]
+command=~/.config/i3blocks/temperature
+instance=cpu
+interval=2
+
+# Memory usage
+#
+# The type defaults to "mem" if the instance is not specified.
+[memory]
+label=MEM
+interval=3
+
+[memory]
+label=SWAP
+instance=swap
+interval=3
+
+# Disk usage
+#
+# The directory defaults to $HOME if the instance is not specified.
+# The script may be called with a optional argument to set the alert
+# (defaults to 10 for 10%).
+[disk]
+label=
+#instance=/mnt/data
+interval=30
+color=#83DC8F
+
+# Network interface monitoring
+#
+# If the instance is not specified, use the interface used for default route.
+# The address can be forced to IPv4 or IPv6 with -4 or -6 switches.
+[iface]
+label=
+instance=wlp5s0
+#color=#00FF00
+interval=10
+
+#[wifi]
+#label=
+#instance=wlp5s0
+#interval=10
+
+[bandwidth]
+command=/usr/libexec/i3blocks/bandwidth -i  -o 
+instance=enp3s0
+interval=1
+min_width=100K 100K
+align=center
+
+#[load_average]
+#interval=5
+
+# Battery indicator
+#
+# The battery instance defaults to 0.
+[battery]
+#label=BAT
+label=
+#instance=1
+interval=2
+
+[kblayout]
+command=~/.config/i3blocks/kblayout
+interval=once
+signal=12
+
+[volume]
+# The first parameter sets the step in percent
+# The second parameter overrides the pulseaudio sink selection
+command=~/.config/i3blocks/volume 5 1 | ~/.config/i3blocks/progressbar.sh
+label=
+interval=once
+signal=10
+
+[backlight]
+command=~/.config/i3blocks/backlight | ~/.config/i3blocks/progressbar.sh
+label=
+interval=once
+signal=11
+#format=json
+
+[date]
+command=date '+%a, %d %b'
+label=
+interval=3600
+separator=false
+
+[time]
+command=date '+%H:%M'
+label=
+interval=5

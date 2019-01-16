@@ -1,0 +1,26 @@
+#!/bin/sh
+
+# note: this block should be executed before the layout query code
+case $BLOCK_BUTTON in
+  1) xkb-switch -n ;;  # left click - switch to next layout
+esac
+
+COLOR_US="#83DC8F"
+COLOR_RU="#FFAE00"
+
+# query the current layout
+LAYOUT=$(xkb-switch)
+# convert to upper case
+LAYOUT=${LAYOUT^^}
+
+COLOR_VAR="COLOR_$LAYOUT"
+
+
+# long text
+echo $LAYOUT
+# short text
+echo $LAYOUT
+# color
+echo ${!COLOR_VAR}
+
+#vim filetype=sh

@@ -1,0 +1,38 @@
+INCLUDE = "$_PEKWM_ETC_PATH/config_system"
+
+Files {
+    Theme = "~/.pekwm/themes/Mirev2-blue"
+}
+
+MoveResize {
+    OpaqueResize = "True"
+}
+
+Screen {
+    Workspaces = "4"
+    WorkspacesPerRow = "4"
+    WorkspaceNames = "01;02;03;04"
+
+    EdgeSize = "0 0 0 0"
+    Placement {
+        Model = "CenteredOnParent Smart"
+    }
+}
+
+Menu {
+    Enter = "Motion"
+    Exec = "ButtonPress"
+}
+
+Harbour {
+    OnTop = "True"
+    MaximizeOver = "False"
+    Placement = "Left"
+    Orientation = "BottomToTop"
+    Head = "0"
+    DockApp {
+        SideMin = "64"
+        SideMax = "0"
+    }
+}
+

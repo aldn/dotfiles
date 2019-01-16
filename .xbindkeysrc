@@ -1,0 +1,24 @@
+"urxvt"
+alt + Return
+
+"scrot -e 'mv $f ~/Pictures/Screenshots'"
+Print
+
+"scrot -b -u -e 'mv $f ~/Pictures/Screenshots'"
+alt + Print
+
+"rofi -show run -sidebar-mode"
+alt + d
+
+#"rofi -show drun"
+#alt + a
+
+#"rofi -show window"
+#alt + w
+
+"~/.config/rofi/quickmenu.sh"
+alt + space
+
+"i3lock"
+alt + l
+

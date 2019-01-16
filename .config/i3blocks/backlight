@@ -1,0 +1,40 @@
+#!/usr/bin/perl
+use strict;
+use warnings;
+use utf8;
+
+my $button = $ENV{'BLOCK_BUTTON'};
+if(defined $button)
+{
+   if ( $button == 4 )
+   {
+      system("xbacklight -inc 10");
+   }
+   elsif ($button == 5)
+   {
+      system("xbacklight -dec 10");
+   }
+}
+
+my $backlight=-1;
+open (XBACKLIGHT, 'xbacklight -get |') or die;
+while (<XBACKLIGHT>)
+{
+   $backlight=int($_);
+   last;
+}
+close(XBACKLIGHT);
+($backlight >= 0 && $backlight <= 100) or die "parse error";
+
+#my $icon="/home/aldn/i3-dzen2-bridge/xbm-icons/cpu.xbm";
+#print "{";
+#printf "\"name\": \"backlight\",";
+#printf "\"full_text\": \"%d\",", $backlight;
+#printf "\"icon\": \"%s\",", $icon;
+#printf "\"icon_color\": \"%s\"", "\#ffffff";
+#print "}\n";
+
+print "$backlight\n";
+
+
+exit 0;

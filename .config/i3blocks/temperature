@@ -1,0 +1,37 @@
+#!/bin/sh
+TYPE="${BLOCK_INSTANCE:-cpu}"
+
+TEMP=0
+#COLOR_NORMAL="#83DC8F"
+COLOR_NORMAL="#83C3DC"
+COLOR_WARM="#FFFF00"
+COLOR_HIGH="#FFAE00"
+COLOR_CRIT="#FF0000"
+
+EXIT_CODE_CRIT=33
+
+if [ "$TYPE" == "cpu" ]
+then
+   TEMP_WARM=65
+   TEMP_HIGH=84
+   TEMP_CRIT=100
+   DEV=/sys/devices/platform/coretemp.0/hwmon/hwmon1/temp1_input
+   let TEMP=$(($(cat $DEV) / 1000))
+fi
+
+# long text
+echo "$TEMP"°C
+# short text
+echo "$TEMP"°C
+# color
+if [ $TEMP -ge $TEMP_CRIT ]; then
+   echo $COLOR_CRIT
+   exit $EXIT_CODE_CRIT
+elif [ $TEMP -ge $TEMP_HIGH ]; then
+   echo $COLOR_HIGH
+elif [ $TEMP -ge $TEMP_WARM ]; then
+   echo $COLOR_WARM
+else
+   echo $COLOR_NORMAL
+fi
+exit 0

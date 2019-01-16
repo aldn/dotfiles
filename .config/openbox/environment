@@ -1,0 +1,5 @@
+#!/bin/sh
+
+## owncloud client uses wrong Qt style if this is not present
+#export XDG_CURRENT_DESKTOP=GNOME
+
