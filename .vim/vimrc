@@ -1,0 +1,716 @@
+"------------------------------------------------------------------------------
+" vim-plug
+"------------------------------------------------------------------------------
+if !exists('g:vimrc_dir')
+    if has('win32')
+        let g:vimrc_dir = $USERPROFILE . '\vimfiles'
+    else
+        let g:vimrc_dir = $HOME . '/.vim'
+    end
+end
+
+let g:myvimrc = g:vimrc_dir . '/vimrc'
+
+let g:ycm_build_cmd='python install.py --clang-completer'
+
+call plug#begin(g:vimrc_dir . '/plugged')
+
+
+" dependency of vim-session
+Plug 'xolox/vim-misc'
+
+Plug 'xolox/vim-session'
+let g:session_autoload = 'no'
+let g:session_autosave = 'no'
+let g:session_lock_enabled = 0
+let g:session_persist_font = 0
+let g:session_persist_colors = 0
+
+
+Plug 'junegunn/vim-easy-align'
+Plug 'scrooloose/nerdtree'
+
+Plug 'scrooloose/nerdcommenter'
+" Add spaces after comment delimiters by default
+let g:NERDSpaceDelims = 1
+" Align line-wise comment delimiters flush left instead of following code indentation
+let g:NERDDefaultAlign = 'left'
+
+"Plug 'mileszs/ack.vim'
+Plug 'jremmen/vim-ripgrep'
+Plug 'mhinz/vim-grepper'
+Plug 'tpope/vim-surround'
+Plug 'tpope/vim-repeat'
+Plug 'tpope/vim-fugitive'
+Plug 'godlygeek/tabular'
+" Plug 'felixhummel/setcolors.vim'
+Plug 'vim-scripts/ScrollColors'
+Plug 'vim-scripts/argtextobj.vim'
+" required by vim-protodef
+Plug 'derekwyatt/vim-fswitch'
+Plug 'derekwyatt/vim-protodef'
+Plug 'gcmt/taboo.vim'
+"Plug 'vim-scripts/YankRing.vim'
+"Plug 'fholgado/minibufexpl.vim'
+Plug 'nfvs/vim-perforce'
+
+
+Plug 'neomake/neomake'
+"usage:
+":Neomake! <maker>
+let g:neomake_cmake_maker = {
+            \ 'exe': 'sh',
+            \ 'args': ['-c', 'mkdir cmake-build-debug; cd cmake-build-debug; cmake ..'],
+            \ 'errorformat': &errorformat,
+            \ }
+let g:neomake_make_maker = {
+            \ 'exe': 'cmake',
+            \ 'args': ['--build', 'cmake-build-debug', '-j', '8'],
+            \ 'errorformat': &errorformat,
+            \ }
+let g:neomake_ninja_maker = {
+            \ 'exe': 'ninja',
+            \ 'args': ['-C', 'Release'],
+            \ 'errorformat': &errorformat,
+            \ }
+"note: custom errorformat is to support VC++8
+"Also we want to exclude default errorformat completely
+"because it is  incorrectly interpreting Jam related stuff as errors
+let g:neomake_bc_maker = {
+            \ 'cwd': 'App',
+            \ 'exe': 'cmd',
+            \ 'args': ['/c', 'build.bat'],
+            \ 'buffer_output': 0,
+            \ 'errorformat': '%f(%l)\ :\ error\ %t%n:\ %m,\ %#%f(%l\\\,%c):\ %m',
+            \ }
+"set errorformat+=%f:%l:\ warning:\ %t%n:\ %m    " note: apparently warnings appear in DetailedLog only
+
+let g:neomake_msbuild_maker = {
+            \ 'cwd': 'Release',
+            \ 'exe': 'msbuild.exe',
+            \ 'args': ['ALL_BUILD.vcxproj'],
+            \ 'buffer_output': 0,
+            \ }
+
+
+" Multi-entry selection UI.
+Plug 'junegunn/fzf'
+
+Plug 'wincent/command-t',
+            \ { 'do': 'cd ruby/command-t/ext/command-t && ruby extconf.rb && make' }
+
+
+" supertab
+Plug 'ervandew/supertab'
+let g:SuperTabDefaultCompletionType = "<c-n>"
+let g:SuperTabContextDefaultCompletionType = "<c-n>"
+
+
+
+" Plug 'jeaye/color_coded',
+"            \ { 'for': ['c', 'cpp', 'objc', 'objcpp'],
+"            \ 'do': 'cmake . && make && make install' }
+" " Disable color_coded in diff mode
+" if &diff
+"   let g:color_coded_enabled = 1
+" endif
+
+function! FindLibclang()
+    let paths =
+        \ [
+        \ '/usr/lib/libclang.so',
+        \ '/usr/local/opt/llvm/lib/libclang.dylib',
+        \ 'C:/Program Files/LLVM/bin/libclang.dll',
+        \ ]
+    for f in paths
+        if filereadable(f)
+            return f
+        endif
+    endfor
+    return ''
+endfunction
+
+
+" Plug 'aldn/chromatica.nvim'
+let g:chromatica#libclang_path=FindLibclang()
+let g:chromatica#enable_at_startup=1
+let g:chromatica#enable_log=1
+let g:chromatica#responsive_mode=1
+
+
+Plug 'bfrg/vim-cpp-modern'
+" Disable function highlighting (affects both C and C++ files)
+" let g:cpp_no_function_highlight = 1
+"
+" Put all standard C and C++ keywords under Vim's highlight group `Statement`
+" (affects both C and C++ files)
+" let g:cpp_simple_highlight = 1
+
+" Enable highlighting of named requirements (C++20 library concepts)
+let g:cpp_named_requirements_highlight = 1
+
+
+
+" Plug 'bbchung/Clamp'
+" let g:clamp_libclang_file=FindLibclang()
+
+
+
+"Plug 'ctrlpvim/ctrlp.vim'
+" Setup some default ignores
+let g:ctrlp_custom_ignore = {
+  \ 'dir':  '\v[\/](\.(git|hg|svn)|\_site)$',
+  \ 'file': '\v\.(exe|so|dll|class|png|jpg|jpeg)$',
+\}
+" r: Use the nearest .git directory as the cwd
+" This makes a lot of sense if you are working on a project that is in version
+" control. It also supports works with .svn, .hg, .bzr.
+" w: - modifier to "r": start search from the cwd instead of the current
+" file's directory
+let g:ctrlp_working_path_mode = 'r'
+"let g:ctrlp_map='<leader>p'
+
+
+Plug 'vim-scripts/headerguard'
+function! g:HeaderguardName()
+    return toupper(expand('%:gs/[^0-9a-zA-Z_]/_/g'))
+endfunction
+
+
+
+"""""""""""""""""""" LSP client plugins """"""""""""""""""""
+
+" PREREQUISITES:
+"
+" install ccls:
+" ============
+"
+" Linux:
+" -----
+"  Install 'ccls' package from AUR
+"
+" MacOS:
+" -----
+"
+" $ brew tap twlz0ne/homebrew-ccls
+" $ brew install ccls
+"
+" Create shell script /usr/local/bin/ccls, rename original file to /usr/local/bin/ccls-bin
+"```
+" #!/bin/sh
+" exec /usr/local/bin/ccls-bin --log-file=/tmp/ccls.log -v=1 -init='{"clang":{"extraArgs":["-isystem", "/Library/Developer/CommandLineTools/usr/include/c++/v1"]}}' "$@"
+"```
+"
+" Windows:
+" -------
+" git clone https://git.llvm.org/git/llvm.git
+" git clone https://git.llvm.org/git/clang.git llvm/tools/clang
+
+" cd llvm
+" cmake -H. -BRelease -G Ninja -DCMAKE_BUILD_TYPE=Release -DCMAKE_C_COMPILER=cl -DCMAKE_CXX_COMPILER=cl -DLLVM_TARGETS_TO_BUILD=X86
+" ninja -C Release clangFormat clangFrontendTool clangIndex clangTooling clang
+
+" git clone --depth=1 --recursive https://github.com/MaskRay/ccls
+" cd ccls
+" cmake -H. -BRelease -G Ninja -DCMAKE_BUILD_TYPE=Release -DCMAKE_CXX_COMPILER=clang-cl -DCMAKE_PREFIX_PATH="C:/llvm/Release;C:/llvm/Release/tools/clang;C:/llvm;C:/llvm/tools/clang"
+" ninja -C Release
+
+
+Plug 'w0rp/ale'
+let g:ale_completion_enabled = 1
+" let g:ale_set_balloons = 0
+" let g:ale_sign_error = '>>'
+" let g:ale_sign_warning = '--'
+" let g:ale_set_highlights = 0
+" highlight ALEWarning ctermbg=DarkMagenta
+" let g:ale_set_loclist = 0
+" let g:ale_set_quickfix = 1
+" let g:ale_open_list = 1 " show loclist/quickfix when a file contains warnings or errors
+" let g:ale_keep_list_window_open = 1 " keep open even after errors disappear
+"
+let g:ale_linters = {
+    \ 'c': ['ccls'],
+    \ 'cpp': ['ccls'],
+    \ }
+" let g:ale_cpp_clangd_options = '-log=verbose'
+" let g:ale_history_enabled = 1
+" let g:ale_history_log_output = 1
+
+
+
+""""""""""""""""" color schemes """"""""""""""""""
+
+" Plug 'flazz/vim-colorschemes'
+" Plug 'sickill/vim-monokai', { 'as': 'colo-monokai' }
+" Plug 'aldn/vim-monokai-tasty', { 'as': 'colo-monokai-tasty' }
+" Plug 'joshdick/onedark.vim', { 'as': 'colo-onedark' }
+" Plug 'KeitaNakamura/neodark.vim', { 'as': 'colo-neodark' }
+" Plug 'rakr/vim-one', { 'as': 'colo-one' }
+" Plug 'nielsmadan/harlequin', { 'as': 'colo-harlequin' }
+Plug 'chriskempson/base16-vim', { 'as': 'colo-base16' }
+Plug 'tomasr/molokai', { 'as': 'colo-molokai' }
+Plug 'fmoralesc/molokayo', { 'as': 'colo-molokayo' }
+Plug 'fcevado/molokai_dark', { 'as': 'colo-molokai_dark' }
+Plug 'aldn/molokai-zhou13', { 'as': 'colo-molokai-zhou13' }
+
+call plug#end()
+
+"NOTE: :PlugInstall to install plugins
+
+
+" Neovim under Windows setup:
+" 1) install python3 and ruby+devkit
+" 2) add to PATH:
+"    C:\Program_Files\Ruby24\msys64\usr\bin
+"    C:\Program_Files\Ruby24\msys64\mingw64\bin
+"    and make sure these are in PATH:
+"    C:\Program_Files\Ruby24\bin
+"    C:\Program Files\Python37
+" 3) pip install neovim
+" 4) gem install neovim
+
+" Windows C/C++ development environment setup
+" 1) install CMake, Visual Studio Tools and Windows 10 SDK
+" 2) add to PATH:
+"    C:\Program Files (x86)\Microsoft Visual Studio\2017\BuildTools\MSBuild\15.0\Bin
+"    C:\Program Files (x86)\Microsoft Visual Studio\2017\BuildTools\VC\Auxiliary\Build
+
+
+"------------------------------------------------------------------------------
+" Editor Settings
+"------------------------------------------------------------------------------
+" for some reason Vim under Windows is not using UTF-8 by default
+if has("win32")
+    set encoding=utf-8              " UTF-8 everywhere
+    set fileencoding=utf-8          " UTF-8 as default encoding for new files
+end
+
+"set nocompatible                    " use Vim's defaults instead of Vi's. Should be the
+                                    " first set comand.
+set fileformats=unix,dos            " use unix-style line endings by default
+set fileformat=unix
+set ts=4 sw=4 sts=-1 et             " 4 spaces to indent, expand tabs with spaces
+"set noet ci pi sts=0 sw=4 ts=4      " indent=4 spaces, tabs to indent, spaces to align
+set backspace=indent,eol,start      " allow backspacing over everything in insert mode
+set history=50                      " keep 50 lines of command line history
+set ruler                           " show the cursor position all the time
+set list listchars=tab:▸\ ,trail:·  " display tabs and trailing whitespace
+set wildmode=list:longest,full      " use the new menus
+set wildmenu                        " command line completion uses enahnced mode
+set wildignore=.git,build           " patterns excluded from wildcard expansion
+set cinoptions=g0                   " do not indent public, private etc
+set sessionoptions=globals,curdir,tabpages,resize,winpos,winsize
+                                    " saves cwd, tabs and windows
+set clipboard=unnamedplus
+"set scrolloff=999                   " keep cursor centered vertically
+set mouse=a                         " enable mouse in all modes
+if !empty($TERM)
+    set mouse=
+endif
+set number                          " show line numbers
+set showmode                        " show INSERT and VISUAL mode indication in status line
+set showcmd                         " display incomplete commands in the bottom bar
+"set cursorline                      " highlight current line
+set laststatus=2                    " always show status line
+"set highlight+=sn                   " highlight status line and line numbers
+set modelines=0                     " prevents some security exploits with modelines
+"set relativenumber                  " show line numbers as offsets from the current line
+"set ttyfast                         " enable faster redraws
+"set visualbell                      " blink on errors
+
+set ignorecase                      " ignore case when searching
+set smartcase                       " case sensitive searching if some letters are UPPERCASE
+set gdefault                        " apply substitution globally on lines by default
+set incsearch                       " do incremental searching
+"set showmatch                       " when a bracket is inserted highlight the matching one
+set hlsearch                        " switch on highlighting the last used search pattern.
+
+set completeopt=noinsert,menuone,noselect
+
+
+
+"set statusline=                                     " clear
+"set statusline+=%f\                                 " file name
+"set statusline+=%h%m%r%w\ \                         " flags
+"set statusline+=%4l%-5.(,%c%V%)\ \ %6P\ \ \         " offset
+"set statusline+=%{&fileformat}/%{strlen(&ft)?&ft:'none'} " file format
+"set statusline+=%=                                  " right align
+"set statusline+=%{strlen(&fenc)?&fenc:&enc}\ \ \      " encoding
+"set statusline+=%b,%B                               " current char
+"set statusline+=%{synIDattr(synID(line('.'),col('.'),1),'name')}\  " highlight
+
+
+
+function! MyStatusLine()
+    let statusline = ""
+    " Filename (F -> full, f -> relative)
+    let statusline .= "%f"
+    " Buffer flags
+    let statusline .= "%( %h%1*%m%*%r%w%) "
+    " File format and type
+    let statusline .= "(%{&ff}%(\/%Y%)) "
+    " Left/right separator
+    let statusline .= "%="
+    " Line & column
+    let statusline .= "%l,%c%V "
+    " Character under cursor (decimal)
+    let statusline .= "| %3.3b "
+    " Character under cursor (hexadecimal)
+    let statusline .= "%02.2B "
+    " File progress
+    let statusline .= "| %3P"
+    return statusline
+endfunction
+
+set statusline=%!MyStatusLine()
+
+filetype plugin indent on           " detect file type, do language dependent indenting
+syntax on                           " switch syntax highlighting on
+
+
+
+"Credit joshdick
+"Use 24-bit (true-color) mode in Vim/Neovim when outside tmux.
+"If you're using tmux version 2.2 or later, you can remove the outermost
+"$TMUX check and use tmux's 24-bit color support
+"(see < http://sunaku.github.io/tmux-24bit-color.html#usage > for more information.)
+" if (empty($TMUX))
+"   if (has("nvim"))
+"       let $NVIM_TUI_ENABLE_TRUE_COLOR=1
+"   endif
+"   if (has("termguicolors"))
+"     set termguicolors
+"   endif
+" endif
+
+
+
+function! SchemeBefore()
+    " let g:neodark#background = '#202020'
+    " let g:neodark#use_256color = 1
+    " let g:neodark#solid_vertsplit = 1
+    let g:molokai_original=0
+    let g:rehash256=0
+    let g:molokai_terminal=0
+endfunction
+function! SchemeAfter()
+    " increase visibility of stray whitespace
+    if &background == "dark"
+        hi Whitespace guifg=#ffffff
+    else
+        hi Whitespace guifg=#000000
+    endif
+    " tweaks for molokai:
+    if g:colors_name =~ "molokai" && 1
+        hi StatusLine   guifg=fg      guibg=#455354
+        " hi StatusLineNC guifg=#808080 guibg=#080808
+        " hi CursorLine                 guibg=#363A41
+        " hi CursorLine                 guibg=#121212
+        hi MatchParen   guifg=#FD971F guibg=bg          gui=bold,underline
+        hi TabLineSel   guifg=#E6DB74 guibg=#333536
+        hi Comment      guifg=#7E8791
+    endif
+endfunction
+
+function! SchemeDark()
+    set background=dark
+    call SchemeBefore()
+    " colo molokai
+    colo molokai-zhou13
+    " colo molokayo
+    " colo harlequin
+    " colo monokai
+    call SchemeAfter()
+endfunction
+function! SchemeLight()
+    set background=light
+    call SchemeBefore()
+    colo base16-one-light
+    call SchemeAfter()
+endfunction
+com! Light call SchemeLight()
+com! Dark call SchemeDark()
+"""""
+
+if isdirectory(g:plug_home)
+    :Dark
+endif
+
+if has("gui")
+    set guioptions=c          " use console dialogs
+end
+
+if has("gui_macvim")
+    set guifont=Inconsolata:h14,Menlo:h12
+    set fuoptions=maxvert,maxhorz
+    noremap  <F1> :set invfullscreen<CR>
+    inoremap <F1> <ESC>:set invfullscreen<CR>a
+end
+
+if has("gui_gtk3")
+    "set guifont=Inconsolata\ LGC\ 9
+    set guifont=Monospace\ 9
+end
+
+if has("gui_win32")
+    set guifont=Menlo:h9,Inconsolata:h11
+end
+
+
+"------------------------------------------------------------------------------
+" Commands
+"------------------------------------------------------------------------------
+" rebuild indentation in the whole file
+com! FixIndentation normal mzgg=G`z
+
+" strip trailing whitespace globally
+function! ShowSpaces(...)
+  let @/='\v(\s+$)|( +\ze\t)'
+  let oldhlsearch=&hlsearch
+  if !a:0
+    let &hlsearch=!&hlsearch
+  else
+    let &hlsearch=a:1
+  end
+  return oldhlsearch
+endfunction
+
+function! TrimSpaces() range
+  let oldhlsearch=ShowSpaces(1)
+  execute a:firstline.",".a:lastline."substitute ///gec"
+  let &hlsearch=oldhlsearch
+endfunction
+
+com! -bar -nargs=? ShowSpaces call ShowSpaces(<args>)
+com! -bar -nargs=0 -range=% TrimSpaces <line1>,<line2>call TrimSpaces()
+
+
+" Convenient command to see the difference between the current buffer and the
+" file it was loaded from, thus the changes you made.
+com! DiffOrig vert new | set bt=nofile | r # | 0d_ | diffthis | wincmd p | diffthis
+
+
+function! AddLicenseBlockHB()
+  execute ':0r ' . g:vimrc_dir . '/hblicenseblock.txt'
+  execute ':%s/$f/' . expand('%:t') . '/g'
+endfunction
+com! AddLicenseBlockHB call AddLicenseBlockHB()
+com! AddHeaderGuard :HeaderguardAdd
+
+" `What` will print out the syntax group that the cursor is currently above.
+" from https://www.reddit.com/r/vim/comments/6z4aau/how_to_stop_vim_from_autohighlighting_italics_in/
+command! What echo synIDattr(synID(line('.'), col('.'), 1), 'name')
+"------------------------------------------------------------------------------
+" Autocommands
+"------------------------------------------------------------------------------
+
+
+" cursorline is visible only in active window
+augroup CursorLineOnlyInActiveWindow
+  au!
+  au VimEnter,WinEnter,BufWinEnter * setlocal cursorline
+  au WinLeave * setlocal nocursorline
+augroup END
+
+
+" utilize syntax completion if it is available and omnifunc is unset
+" if has("autocmd") && exists("+omnifunc")
+"   autocmd Filetype *
+"           \ if &omnifunc == "" |
+"           \     setlocal omnifunc=syntaxcomplete#Complete |
+"           \ endif
+" endif
+
+
+" When editing a file, always jump to the last known cursor position.
+" Don't do it when the position is invalid or when inside an event handler
+" (happens when dropping a file on gvim).
+" Also don't do it when the mark is in the first line, that is the default
+" position when opening a file.
+au BufReadPost *
+\ if line("'\"") > 1 && line("'\"") <= line("$") |
+\   exe "normal! g`\"" |
+\ endif
+
+
+
+" Autosave all open buffers upon losing focus
+" Used silent modifier to prevent error messages with new buffers
+"au FocusLost * :silent! wa
+
+" Show vertical bar to know when the line of code is too long
+" Only do that for the files with source code.
+"au FileType c,cpp,python,bash set colorcolumn=85
+
+
+
+" Specific indent rules at work
+function! ApplyIndentRules()
+    if (strridx(expand("%:p:h"), "p4") != -1)
+       setlocal ts=3 sw=3 sts=-1 et             " 3 spaces to indent, expand tabs with spaces
+    "else
+    "   setlocal ts=4 sw=4 sts=-1 et             " 4 spaces to indent, expand tabs with spaces
+    endif
+endfunction
+au! BufNewFile,BufRead,BufWrite * call ApplyIndentRules()
+
+" make command
+" function! SetMakeCommand()
+"     if (strridx(getcwd(), "p4") != -1)
+"        setlocal makeprg=buildcentral.bat\ -b\ -s=2\ -p\ fastrebuild.hbbc
+"     endif
+" endfunction
+" au! BufEnter * call SetMakeCommand()
+
+"fswitch
+au! BufEnter *.cpp let b:fswitchdst = 'hpp' | let b:fswitchlocs = './,..,../include/'
+au! BufEnter *.hpp let b:fswitchdst = 'cpp' | let b:fswitchlocs = './,private/,../src/'
+
+au! BufRead * if search('-*- C++ -*-', 'nw', 5) || search('#pragma', 'nw', 5) | setlocal ft=cpp | endif
+
+"------------------------------------------------------------------------------
+" Keybindings
+"------------------------------------------------------------------------------
+
+" set leader key
+let mapleader = ","
+
+
+" use hjkl instead of arrow keys
+nnoremap <Up>     <Nop>
+nnoremap <Down>   <Nop>
+nnoremap <Left>   <Nop>
+nnoremap <Right>  <Nop>
+inoremap <Up>     <Nop>
+inoremap <Down>   <Nop>
+inoremap <Left>   <Nop>
+inoremap <Right>  <Nop>
+
+" makes j and k work the way you expect instead of working in some archaic
+" “movement by file line instead of screen line" fashion
+nnoremap j gj
+nnoremap k gk
+
+" jk or kj switches to normal mode.
+" Also has a nice side effect of leaving you where you were
+" if you were already in normal mode
+"inoremap jk <esc>
+"inoremap kj <esc>
+
+
+" exit INSERT mode and adjust cursor
+inoremap ii <Esc>l
+
+" H jumps to the beginning and L jumps to the end of the line
+nnoremap H 00
+nnoremap L $
+
+
+" Use space and backspace to scroll the document
+nnoremap <Space> <C-d>
+nnoremap <BS>    <C-u>
+
+
+" Enter command mode with ; (saves pressing shift)
+nnoremap ; :
+
+" Select all
+nnoremap <C-a> ggVG
+
+" switch to buffer by typing bg and then buffer index followed by CR
+"nnoremap bg :ls<CR>:b<Space>
+
+" use Perl/Python regexes instead of Vim
+nnoremap / /\v
+vnoremap / /\v
+
+" match bracket pair
+nnoremap <tab> %
+vnoremap <tab> %
+
+" quicker saving
+nnoremap <leader>, :wa<cr>
+inoremap <leader>, <esc>:wa<cr>a
+
+"window op chord
+"nnoremap <leader>w <C-w>
+
+" clear highlighted stuff
+nnoremap <leader><space> :noh<cr>
+
+" reselect the text that was just pasted
+nnoremap <leader>v V`]
+
+" go to previous location/next location (jump history)
+" note: M=meta(alt), D=command
+nnoremap <M-[> <C-o>
+nnoremap <M-]> <C-i>
+nnoremap <D-[> <C-o>
+nnoremap <D-]> <C-i>
+
+" tabs switching
+nnoremap <M-9> :tabprev<CR>
+nnoremap <M-0> :tabnext<CR>
+nnoremap <D-9> :tabprev<CR>
+nnoremap <D-0> :tabnext<CR>
+
+" NERD Tree
+nnoremap <leader>f :NERDTreeToggle<cr>
+" Highlight currently open buffer in NERDTree
+nnoremap <leader>n :NERDTreeFind<CR>
+
+" ripgrep
+nnoremap <leader>a :Rg 
+
+" open vimrc in the vertical split
+" note: can't use $MYVIMRC because for neovim it's init.vim and not this file
+nnoremap <leader>ev <C-w><C-v><C-l>:e <C-r>=g:myvimrc<cr><cr>
+
+" YankRing
+"nnoremap <silent> <F11> :YRShow<cr>
+
+" open/save session
+nnoremap <leader>o :silent OpenSession<space>
+nnoremap <leader>s :silent SaveSession<space>
+
+
+" ALE
+nnoremap <leader>gg :ALEGoToDefinition<cr>
+nnoremap <leader>gf :ALEFix<cr>
+nnoremap <leader>gr :ALEFindReferences<cr>
+nnoremap <silent> <C-k> <Plug>(ale_previous_wrap)
+nnoremap <silent> <C-j> <Plug>(ale_next_wrap)
+
+
+
+" fswitch
+" switch hpp/cpp and load into the current window
+nnoremap <leader>oo :FSHere<CR>
+
+" command-t
+nmap <silent> <leader>m <Plug>(CommandT)
+nmap <silent> <leader>. <Plug>(CommandTBuffer)
+nmap <silent> <leader>j <Plug>(CommandTJump)
+
+" copy current file name to clipboard
+nnoremap <leader>ys :let @*=substitute(expand("%"), "\\", "/", "g")<CR>
+nnoremap <leader>yl :let @*=substitute(expand("%:p"), "\\", "/", "g")<CR>
+
+" NERDCommenter
+let g:doxygen_comment_mode = 0
+function! NERDCommenterSwitchDoxygenMode()
+    if g:doxygen_comment_mode == 0
+        let g:NERDCustomDelimiters = { 'cpp': { 'left': '///', 'leftAlt': '/**','rightAlt': '*/' } }
+        let g:doxygen_comment_mode = 1
+        echo 'now using Doxygen-style comments'
+    else
+        unlet g:NERDCustomDelimiters
+        let g:doxygen_comment_mode = 0
+        echo 'disabled Doxygen-style comments'
+    endif
+endfunction
+nnoremap <leader>cd :call NERDCommenterSwitchDoxygenMode()<cr>
+
+" Neomake
+nnoremap <leader>b :Neomake! 
+
