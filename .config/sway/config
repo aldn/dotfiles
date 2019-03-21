@@ -1,0 +1,316 @@
+
+### Variables
+#
+# Logo key. Use Mod1 for Alt.
+set $mod Mod4
+# Home row direction keys, like vim
+set $left h
+set $down j
+set $up k
+set $right l
+# Your preferred terminal emulator
+set $term termite
+
+# set $color_hi #f4005f
+set $color_hi #9d65ff
+# set $color_text_hi #202020
+set $color_text_hi #ffffff
+
+
+
+### Output configuration
+#
+# Default wallpaper (more resolutions are available in /usr/share/backgrounds/sway/)
+output * bg /usr/share/backgrounds/sway/Sway_Wallpaper_Blue_1920x1080.png fill
+#
+# Example configuration:
+#
+#   output HDMI-A-1 resolution 1920x1080 position 1920,0
+#
+# You can get the names of your outputs by running: swaymsg -t get_outputs
+
+### Idle configuration
+#
+# Example configuration:
+#
+# exec swayidle -w \
+#          timeout 300 'swaylock -f -c 000000' \
+#          timeout 600 'swaymsg "output * dpms off"' \
+#               resume 'swaymsg "output * dpms on"' \
+#          before-sleep 'swaylock -f -c 000000'
+#
+# This will lock your screen after 300 seconds of inactivity, then turn off
+# your displays after another 300 seconds, and turn your screens back on when
+# resumed. It will also lock your screen before your computer goes to sleep.
+
+### Input configuration
+#
+# Example configuration:
+#
+#   input "2:14:SynPS/2_Synaptics_TouchPad" {
+#       dwt enabled
+#       tap enabled
+#       natural_scroll enabled
+#       middle_emulation enabled
+#   }
+#
+# You can get the names of your inputs by running: swaymsg -t get_inputs
+# Read `man 5 sway-input` for more information about this section.
+
+input "6700:11303:USB_USB_Keyboard" {
+    xkb_layout us,ru
+    # xkb_variant ,nodeadkeys
+    xkb_options grp:alt_shift_toggle
+}
+
+
+### Key bindings
+#
+# Basics:
+#
+# start a terminal
+bindsym $mod+Return exec $term
+
+# kill focused window
+bindsym $mod+Shift+q kill
+bindsym --whole-window $mod+button2 kill
+
+# start your launcher
+bindsym $mod+d exec $menu
+
+# Drag floating windows by holding down $mod and left mouse button.
+# Resize them with right mouse button + $mod.
+# Despite the name, also works for non-floating windows.
+# Change normal to inverse to use left mouse button for resizing and right
+# mouse button for dragging.
+floating_modifier $mod normal
+
+# reload the configuration file
+bindsym $mod+Shift+c reload
+
+# exit sway (logs you out of your Wayland session)
+bindsym $mod+Shift+e exec swaynag -t warning -m 'Really exit sway?' -b 'Yes' 'swaymsg exit'
+
+
+#
+# Moving around:
+#
+# Move your focus around
+bindsym $mod+$left focus left
+bindsym $mod+$down focus down
+bindsym $mod+$up focus up
+bindsym $mod+$right focus right
+# or use $mod+[up|down|left|right]
+bindsym $mod+Left focus left
+bindsym $mod+Down focus down
+bindsym $mod+Up focus up
+bindsym $mod+Right focus right
+
+# _move_ the focused window with the same, but add Shift
+bindsym $mod+Shift+$left move left
+bindsym $mod+Shift+$down move down
+bindsym $mod+Shift+$up move up
+bindsym $mod+Shift+$right move right
+# ditto, with arrow keys
+bindsym $mod+Shift+Left move left
+bindsym $mod+Shift+Down move down
+bindsym $mod+Shift+Up move up
+bindsym $mod+Shift+Right move right
+#
+# Workspaces:
+#
+# switch to workspace
+bindsym $mod+1 workspace 1
+bindsym $mod+2 workspace 2
+bindsym $mod+3 workspace 3
+bindsym $mod+4 workspace 4
+bindsym $mod+5 workspace 5
+bindsym $mod+6 workspace 6
+bindsym $mod+7 workspace 7
+bindsym $mod+8 workspace 8
+bindsym $mod+9 workspace 9
+bindsym $mod+0 workspace 10
+# move focused container to workspace
+bindsym $mod+Shift+1 move container to workspace 1
+bindsym $mod+Shift+2 move container to workspace 2
+bindsym $mod+Shift+3 move container to workspace 3
+bindsym $mod+Shift+4 move container to workspace 4
+bindsym $mod+Shift+5 move container to workspace 5
+bindsym $mod+Shift+6 move container to workspace 6
+bindsym $mod+Shift+7 move container to workspace 7
+bindsym $mod+Shift+8 move container to workspace 8
+bindsym $mod+Shift+9 move container to workspace 9
+bindsym $mod+Shift+0 move container to workspace 10
+# Note: workspaces can have any name you want, not just numbers.
+# We just use 1-10 as the default.
+#
+# Layout stuff:
+#
+# You can "split" the current object of your focus with
+# $mod+b or $mod+v, for horizontal and vertical splits
+# respectively.
+bindsym $mod+b splith
+bindsym $mod+v splitv
+
+# Switch the current container between different layout styles
+bindsym $mod+s layout stacking
+bindsym $mod+w layout tabbed
+bindsym $mod+e layout toggle split
+
+# Make the current focus fullscreen
+bindsym $mod+f fullscreen
+
+# Toggle the current focus between tiling and floating mode
+bindsym $mod+space floating toggle
+
+
+# move focus to the parent container
+bindsym $mod+a focus parent
+#
+# Scratchpad:
+#
+# Sway has a "scratchpad", which is a bag of holding for windows.
+# You can send windows there and get them back later.
+
+# Move the currently focused window to the scratchpad
+bindsym $mod+Shift+minus move scratchpad
+
+# Show the next scratchpad window or hide the focused scratchpad window.
+# If there are multiple scratchpad windows, this command cycles through them.
+bindsym $mod+minus scratchpad show
+#
+# Resizing containers:
+#
+mode "resize" {
+    # left will shrink the containers width
+    # right will grow the containers width
+    # up will shrink the containers height
+    # down will grow the containers height
+    bindsym $left resize shrink width 10px
+    bindsym $down resize grow height 10px
+    bindsym $up resize shrink height 10px
+    bindsym $right resize grow width 10px
+
+    # ditto, with arrow keys
+    bindsym Left resize shrink width 10px
+    bindsym Down resize grow height 10px
+    bindsym Up resize shrink height 10px
+    bindsym Right resize grow width 10px
+
+    # return to default mode
+    bindsym Return mode "default"
+    bindsym Escape mode "default"
+}
+bindsym $mod+r mode "resize"
+
+bindsym Print exec grim $(xdg-user-dir PICTURES)/$(date +'screenshot-%Y-%m-%d-%H%M%S.png')
+bindsym Mod1+Print exec grim -g "$(slurp)" - | wl-copy
+
+bindsym $mod+Tab focus mode_toggle # Swap focus between the tiling area and the floating area
+bindsym Mod1+Tab focus right
+
+# bindsym XF86HomePage
+# bindsym XF86Mail
+# bindsym XF86Search
+# bindsym XF86Tools
+# bindsym XF86Explorer
+# bindsym XF86Calculator
+# bindsym XF86AudioPlay
+# bindsym XF86AudioPrev
+# bindsym XF86AudioNext
+# bindsym XF86AudioLowerVolume
+# bindsym XF86AudioRaiseVolume
+# bindsym XF86AudioMute
+
+#
+# Status Bar:
+#
+# Read `man 5 sway-bar` for more information about this section.
+bar {
+    position top
+    font monospace 10
+    height 20
+    tray_output primary
+    # status_padding 1
+    # status_edge_padding 10
+
+    # When the status_command prints a new line to stdout, swaybar updates.
+    # The default just shows the current date and time.
+    status_command while date +'%Y-%m-%d %H:%M'; do sleep 1; done
+
+    colors {
+        statusline #ffffff
+        background #323232
+
+        #feature            border    bg        text
+        inactive_workspace  #323232   #323232   #5c5c5c
+        focused_workspace   $color_hi   $color_hi   #ffffff
+        # active_workspace
+        # urgent_workspace
+    }
+}
+
+###################################################################
+
+#----------------- style
+font open sans semibold 10
+titlebar_padding 5 1
+titlebar_border_thickness 0
+#feature                  border    bg        text      indicator  childborder
+# client.focused_inactive   #323232   #323232   #5c5c5c
+client.focused            $color_hi   $color_hi   $color_text_hi   $color_hi  $color_hi
+
+#----------------- options
+focus_follows_mouse no
+workspace_auto_back_and_forth yes
+hide_edge_borders both
+
+#----------------- filters
+for_window [title="[.]*"] floating enable
+for_window [app_id="termite"] floating disable
+for_window [app_id="nvim-qt"] floating disable, border pixel 2
+for_window [title="Firefox"] floating disable, border pixel 2
+#for_window [title="wl-clipboard"] move scratchpad
+# for_window [title="wl-clipboard"] floating enable
+# for_window [title="TelegramDesktop"] floating enable, border pixel 2
+# for_window [app_id="virt-manager"] floating enable
+# for_window [app_id="org.remmina.Remmina"] floating enable
+# for_window [app_id="qt5ct"] floating enable
+# for_window [app_id="keepassxc"] floating enable
+
+
+#------------------ app list
+# set $dmenu dmenu -fn 'Monospace 10' -nb '#323232' -nf '#ffffff' -sb '$color_hi' -sf '#ffffff'
+# set $dmenu bemenu --fn 'monospace 10' --nb '#323232' --nf '#ffffff' --hb '$color_hi' --hf '#ffffff' --fb '#323232' --tb '#323232' --tf '#ffffff'  -p '>'
+#set $menu dmenu_path | $dmenu | xargs swaymsg exec
+set $sway $HOME/.config/sway
+set $menu termite --config=$sway/termite-launcher.conf --name=launcher -e "bash -c $sway/launcher.sh"
+for_window [app_id="^launcher$"] floating enable, border none, resize set 400 310, move position center
+
+
+#------------------ tilde terminal
+for_window [app_id="^tildeterminal$"] floating enable, sticky enable, border pixel 2, resize set 1920 310, move position 0 -400
+# bindsym $mod+z exec 'fl="$XDG_RUNTIME_DIR/tilde_vis"; vis=0; if [[ -f "$fl" ]]; then vis=$(<$fl); fi; if((vis)); then swaymsg -- [app_id="^tildeterminal$"] move position 0 -400, focus mode_toggle; else swaymsg -- [app_id="^tildeterminal$"] move position 0 0, focus; fi;    vis=$((1-vis)); echo $vis > $fl;'
+# set $file_tilde_vis "$XDG_RUNTIME_DIR/tilde_vis"
+# bindsym $mod+z exec '\
+#     fl=$file_tilde_vis; \
+#     vis=0; \
+#     if [[ -f "$fl" ]]; \
+#         then vis=$(<$fl); \
+#     fi; \
+#     if((vis)); \
+#         then swaymsg -- [app_id="^tildeterminal$"] move position 0 -400, focus mode_toggle; \
+#         else swaymsg -- [app_id="^tildeterminal$"] move position 0 0, focus; \
+#     fi; \
+#     vis=$((1-vis)); \
+#     echo $vis > $fl'
+bindcode $mod+49 exec python3 $HOME/.config/sway/tilde_terminal.py
+
+# exec rm -f $file_tilde_vis
+exec termite --name=tildeterminal
+
+
+#----------------- run
+exec --no-startup-id mako    # notification daemon
+
+
