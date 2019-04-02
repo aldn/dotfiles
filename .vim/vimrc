@@ -185,9 +185,6 @@ endfunction
 " install ccls:
 " ============
 "
-" Linux:
-" -----
-"  Install 'ccls' package from AUR
 "
 " MacOS:
 " -----
@@ -195,10 +192,10 @@ endfunction
 " $ brew tap twlz0ne/homebrew-ccls
 " $ brew install ccls
 "
-" Create shell script /usr/local/bin/ccls, rename original file to /usr/local/bin/ccls-bin
+" Rename binary to /usr/local/bin/ccls1 and create script /usr/local/bin/ccls: 
 "```
 " #!/bin/sh
-" exec /usr/local/bin/ccls-bin --log-file=/tmp/ccls.log -v=1 -init='{"clang":{"extraArgs":["-isystem", "/Library/Developer/CommandLineTools/usr/include/c++/v1"]}}' "$@"
+" exec ccls1 --log-file=/tmp/ccls.log -v=1 -init='{"clang":{"extraArgs":["-isystem", "/Library/Developer/CommandLineTools/usr/include/c++/v1"]}}' "$@"
 "```
 "
 " Windows:
@@ -210,10 +207,21 @@ endfunction
 " cmake -H. -BRelease -G Ninja -DCMAKE_BUILD_TYPE=Release -DCMAKE_C_COMPILER=cl -DCMAKE_CXX_COMPILER=cl -DLLVM_TARGETS_TO_BUILD=X86
 " ninja -C Release clangFormat clangFrontendTool clangIndex clangTooling clang
 
-" git clone --depth=1 --recursive https://github.com/MaskRay/ccls
+" for upstream:
+"    git clone --depth=1 --recursive https://github.com/MaskRay/ccls
+" for release:
+"    1)download https://github.com/MaskRay/ccls/archive/0.20190314.zip
+"    2)unpack to ccls
 " cd ccls
 " cmake -H. -BRelease -G Ninja -DCMAKE_BUILD_TYPE=Release -DCMAKE_CXX_COMPILER=clang-cl -DCMAKE_PREFIX_PATH="C:/llvm/Release;C:/llvm/Release/tools/clang;C:/llvm;C:/llvm/tools/clang"
 " ninja -C Release
+"
+" Rename binary to ccls1.exe and create a batch file ccls.bat with contents:
+" ccls1 --log-file=%TEMP%\ccls.log -v=2
+
+" Linux:
+" -----
+"  Install 'ccls' package from AUR
 
 
 Plug 'w0rp/ale'
@@ -627,6 +635,9 @@ vnoremap / /\v
 " match bracket pair
 nnoremap <tab> %
 vnoremap <tab> %
+
+" do not clobber yanked text when pasting over existing text in visual mode
+vnoremap p "_dP
 
 " quicker saving
 nnoremap <leader>, :wa<cr>
