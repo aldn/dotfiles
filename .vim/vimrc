@@ -404,27 +404,40 @@ endfunction
 function! SchemeAfter()
     " increase visibility of stray whitespace
     if &background == "dark"
-        hi Whitespace guifg=#ffffff
+        hi Whitespace guifg=#FFFFFF
     else
         hi Whitespace guifg=#000000
     endif
     " tweaks for molokai:
-    if g:colors_name =~ "molokai" && 1
-        hi StatusLine   guifg=fg      guibg=#455354
-        " hi StatusLineNC guifg=#808080 guibg=#080808
-        " hi CursorLine                 guibg=#363A41
-        " hi CursorLine                 guibg=#121212
-        hi MatchParen   guifg=#FD971F guibg=bg          gui=bold,underline
-        hi TabLineSel   guifg=#E6DB74 guibg=#333536
-        hi Comment      guifg=#7E8791
+    if g:colors_name =~ "molokai"
+        hi Normal       guifg=#FFFFFF   guibg=#1c1c1c
+        hi StatusLine   guifg=fg        guibg=bg
+        " hi StatusLineNC guifg=#858585   guibg=bg
+        hi StatusLineNC guibg=#858585   guifg=#404040
+        hi CursorLine                   guibg=#303030
+        hi CursorLineNr guifg=#FD971F   guibg=#303030
+        hi LineNr       guifg=#555555   guibg=#1c1c1c
+        hi MatchParen   guifg=#FD971F   guibg=bg          gui=bold,underline
+        hi TabLine      guifg=#858585   guibg=bg          gui=bold
+        hi TabLineSel   guibg=#FD971F   guifg=bg
+        hi Comment      guifg=#858585
+    endif
+
+    " tweaks for neg
+    if g:colors_name == "neg"
+        " hi Normal       guifg=#f0f0f0 guibg=#151515
+        " hi StatusLine   guifg=#404040 guibg=#ffffff
+        " hi StatusLineNC guifg=#202020 guibg=#666666
+        " hi MatchParen   guifg=#FD971F guibg=bg          gui=bold,underline
+        " hi TabLineSel   guifg=#E6DB74 guibg=#333536
     endif
 endfunction
 
 function! SchemeDark()
     set background=dark
     call SchemeBefore()
-    " colo molokai
-    colo molokai-zhou13
+    colo molokai
+    " colo molokai-zhou13
     " colo molokayo
     " colo harlequin
     " colo monokai

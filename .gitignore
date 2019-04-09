@@ -1,0 +1,3 @@
+/.vim/plugged
+/.vim/sessions
+/.config/nvim/rplugin.vim
