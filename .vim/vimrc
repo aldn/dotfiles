@@ -186,8 +186,13 @@ let g:ctrlp_custom_ignore = {
 " control. It also supports works with .svn, .hg, .bzr.
 " w: - modifier to "r": start search from the cwd instead of the current
 " file's directory
-let g:ctrlp_working_path_mode = 'r'
-"let g:ctrlp_map='<leader>p'
+" let g:ctrlp_working_path_mode = 'r'
+" let g:ctrlp_map='<leader>p'
+if executable('ag')
+  let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
+endif
+" Plug 'nixprime/cpsm'
+" let g:ctrlp_match_func = {'match': 'cpsm#CtrlPMatch'}
 
 
 Plug 'vim-scripts/headerguard'
