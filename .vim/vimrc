@@ -359,6 +359,10 @@ set hlsearch                        " switch on highlighting the last used searc
 
 set completeopt=noinsert,menuone,noselect
 
+if executable('ag')
+  set grepprg=ag\ --nogroup\ --nocolor
+endif
+
 
 
 "set statusline=                                     " clear
