@@ -95,6 +95,25 @@ let g:neomake_msbuild_maker = {
 
 " Multi-entry selection UI.
 Plug 'junegunn/fzf'
+" Plug 'junegunn/fzf.vim'
+" let g:fzf_layout = { 'down': '~40%' }
+" let g:fzf_colors =
+" \ { "fg":      ["fg", "Normal"],
+"   \ "bg":      ["bg", "Normal"],
+"   \ "hl":      ["fg", "IncSearch"],
+"   \ "fg+":     ["fg", "CursorLine", "CursorColumn", "Normal"],
+"   \ "bg+":     ["bg", "CursorLine", "CursorColumn"],
+"   \ "hl+":     ["fg", "IncSearch"],
+"   \ "info":    ["fg", "IncSearch"],
+"   \ "border":  ["fg", "Ignore"],
+"   \ "prompt":  ["fg", "Comment"],
+"   \ "pointer": ["fg", "IncSearch"],
+"   \ "marker":  ["fg", "IncSearch"],
+"   \ "spinner": ["fg", "IncSearch"],
+"   \ "header":  ["fg", "WildMenu"] }
+" if executable('ag')
+"     let $FZF_DEFAULT_COMMAND='ag --path-to-ignore ~/.ignore --hidden -g ""'
+" endif
 
 Plug 'wincent/command-t',
             \ { 'do': 'cd ruby/command-t/ext/command-t && ruby extconf.rb && make' }
