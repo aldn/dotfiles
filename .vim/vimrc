@@ -224,9 +224,9 @@ endfunction
 "  Install 'ccls' package from AUR
 
 
-Plug 'w0rp/ale'
+Plug 'w0rp/ale', { 'commit': '80ef7ea2d0b22f0d8de7387a3d5bf6e9e5b72e9d' }
 let g:ale_completion_enabled = 1
-" let g:ale_set_balloons = 0
+let g:ale_set_balloons = 1
 " let g:ale_sign_error = '>>'
 " let g:ale_sign_warning = '--'
 " let g:ale_set_highlights = 0
@@ -237,10 +237,10 @@ let g:ale_completion_enabled = 1
 " let g:ale_keep_list_window_open = 1 " keep open even after errors disappear
 "
 let g:ale_linters = {
-    \ 'c': ['ccls'],
-    \ 'cpp': ['ccls'],
+    \ 'c': ['clangd'],
+    \ 'cpp': ['clangd'],
     \ }
-" let g:ale_cpp_clangd_options = '-log=verbose'
+let g:ale_cpp_clangd_options = '-log=verbose'
 " let g:ale_history_enabled = 1
 " let g:ale_history_log_output = 1
 
