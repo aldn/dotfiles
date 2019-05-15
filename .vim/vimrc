@@ -410,13 +410,12 @@ function! SchemeAfter()
     endif
     " tweaks for molokai:
     if g:colors_name =~ "molokai"
-        hi Normal       guifg=#FFFFFF   guibg=#1c1c1c
+        hi Normal       guifg=#FFFFFF   guibg=#1C1C1C
         hi StatusLine   guifg=fg        guibg=bg
-        " hi StatusLineNC guifg=#858585   guibg=bg
         hi StatusLineNC guibg=#858585   guifg=#404040
-        hi CursorLine                   guibg=#303030
-        hi CursorLineNr guifg=#FD971F   guibg=#303030
-        hi LineNr       guifg=#555555   guibg=#1c1c1c
+        hi CursorLine                   guibg=#101010
+        hi CursorLineNr guifg=#FD971F   guibg=#101010
+        hi LineNr       guifg=#555555   guibg=#1C1C1C
         hi MatchParen   guifg=#FD971F   guibg=bg          gui=bold,underline
         hi TabLine      guifg=#858585   guibg=bg          gui=bold
         hi TabLineSel   guibg=#FD971F   guifg=bg
