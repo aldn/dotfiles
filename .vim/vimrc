@@ -11,7 +11,6 @@ end
 
 let g:myvimrc = g:vimrc_dir . '/vimrc'
 
-let g:ycm_build_cmd='python install.py --clang-completer'
 
 call plug#begin(g:vimrc_dir . '/plugged')
 
@@ -36,8 +35,12 @@ let g:NERDSpaceDelims = 1
 " Align line-wise comment delimiters flush left instead of following code indentation
 let g:NERDDefaultAlign = 'left'
 
-"Plug 'mileszs/ack.vim'
-Plug 'jremmen/vim-ripgrep'
+Plug 'mileszs/ack.vim'
+if executable('ag')
+  let g:ackprg = 'ag --vimgrep'
+endif
+
+" Plug 'jremmen/vim-ripgrep'
 Plug 'mhinz/vim-grepper'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-repeat'
@@ -73,16 +76,14 @@ let g:neomake_ninja_maker = {
             \ 'args': ['-C', 'Release'],
             \ 'errorformat': &errorformat,
             \ }
-"note: custom errorformat is to support VC++8
-"Also we want to exclude default errorformat completely
-"because it is  incorrectly interpreting Jam related stuff as errors
 let g:neomake_bc_maker = {
             \ 'cwd': 'App',
             \ 'exe': 'cmd',
             \ 'args': ['/c', 'build.bat'],
             \ 'buffer_output': 0,
-            \ 'errorformat': '%f(%l)\ :\ error\ %t%n:\ %m,\ %#%f(%l\\\,%c):\ %m',
             \ }
+
+            " \ 'errorformat': '%f(%l)\ :\ error\ %t%n:\ %m,\ %#%f(%l\\\,%c):\ %m',
 "set errorformat+=%f:%l:\ warning:\ %t%n:\ %m    " note: apparently warnings appear in DetailedLog only
 
 let g:neomake_msbuild_maker = {
@@ -118,6 +119,8 @@ Plug 'junegunn/fzf'
 Plug 'wincent/command-t',
             \ { 'do': 'cd ruby/command-t/ext/command-t && ruby extconf.rb && make' }
 
+
+Plug 'vifm/vifm.vim'
 
 " supertab
 Plug 'ervandew/supertab'
@@ -248,18 +251,25 @@ endfunction
 "  Install 'ccls' package from AUR
 
 
-Plug 'w0rp/ale', { 'commit': '80ef7ea2d0b22f0d8de7387a3d5bf6e9e5b72e9d' }
-let g:ale_completion_enabled = 1
-let g:ale_set_balloons = 1
+Plug 'Valloric/YouCompleteMe',
+            \ { 'do': 'python install.py --clangd-completer' }
+let g:ycm_use_clangd = 1
+let g:ycm_clangd_binary_path = "clangd"
+let g:ycm_always_populate_location_list = 1
+
+
+" Plug 'w0rp/ale', { 'commit': '80ef7ea2d0b22f0d8de7387a3d5bf6e9e5b72e9d' }
+"Plug 'w0rp/ale'
+" let g:ale_set_balloons = 0
 " let g:ale_sign_error = '>>'
 " let g:ale_sign_warning = '--'
 " let g:ale_set_highlights = 0
 " highlight ALEWarning ctermbg=DarkMagenta
 " let g:ale_set_loclist = 0
 " let g:ale_set_quickfix = 1
-" let g:ale_open_list = 1 " show loclist/quickfix when a file contains warnings or errors
-" let g:ale_keep_list_window_open = 1 " keep open even after errors disappear
-"
+let g:ale_open_list = 1 " show loclist/quickfix when a file contains warnings or errors
+let g:ale_keep_list_window_open = 1 " keep open even after errors disappear
+
 let g:ale_linters = {
     \ 'c': ['clangd'],
     \ 'cpp': ['clangd'],
@@ -267,8 +277,18 @@ let g:ale_linters = {
 let g:ale_cpp_clangd_options = '-log=verbose'
 " let g:ale_history_enabled = 1
 " let g:ale_history_log_output = 1
+let g:ale_completion_enabled = 0
+" set omnifunc=ale#completion#OmniFunc
 
-
+" if has('nvim')
+"   Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+" else
+"   Plug 'Shougo/deoplete.nvim'
+"   Plug 'roxma/nvim-yarp'
+"   Plug 'roxma/vim-hug-neovim-rpc'
+" endif
+" let g:deoplete#enable_at_startup = 1
+" let g:deoplete#sources = {'_': ['ale']}
 
 """"""""""""""""" color schemes """"""""""""""""""
 
@@ -726,11 +746,18 @@ nnoremap <leader>s :silent SaveSession<space>
 
 
 " ALE
-nnoremap <leader>gg :ALEGoToDefinition<cr>
-nnoremap <leader>gf :ALEFix<cr>
-nnoremap <leader>gr :ALEFindReferences<cr>
-nnoremap <silent> <C-k> <Plug>(ale_previous_wrap)
-nnoremap <silent> <C-j> <Plug>(ale_next_wrap)
+" nnoremap <leader>gg :ALEGoToDefinition<cr>
+" nnoremap <leader>gf :ALEFix<cr>
+" nnoremap <leader>gr :ALEFindReferences<cr>
+" nnoremap <silent> <C-k> <Plug>(ale_previous_wrap)
+" nnoremap <silent> <C-j> <Plug>(ale_next_wrap)
+
+" YCM
+nnoremap <leader>gg :YcmCompleter GoTo<cr>
+nnoremap <leader>gc :YcmCompleter GoToDeclaration<cr>
+nnoremap <leader>gd :YcmCompleter GoToDefinition<cr>
+nnoremap <leader>gt :YcmCompleter GetType<cr>
+nnoremap <leader>gr :YcmCompleter GoToReferences<cr>
 
 
 
