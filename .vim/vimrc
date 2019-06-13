@@ -620,7 +620,7 @@ function! ApplyIndentRules()
     "   setlocal ts=4 sw=4 sts=-1 et             " 4 spaces to indent, expand tabs with spaces
     endif
 endfunction
-au! BufNewFile,BufRead,BufWrite * call ApplyIndentRules()
+au! BufNew,BufReadPost,BufWritePost * call ApplyIndentRules()
 
 " make command
 " function! SetMakeCommand()
