@@ -129,36 +129,6 @@ let g:SuperTabContextDefaultCompletionType = "<c-n>"
 
 
 
-" Plug 'jeaye/color_coded',
-"            \ { 'for': ['c', 'cpp', 'objc', 'objcpp'],
-"            \ 'do': 'cmake . && make && make install' }
-" " Disable color_coded in diff mode
-" if &diff
-"   let g:color_coded_enabled = 1
-" endif
-
-function! FindLibclang()
-    let paths =
-        \ [
-        \ '/usr/lib/libclang.so',
-        \ '/usr/local/opt/llvm/lib/libclang.dylib',
-        \ 'C:/Program Files/LLVM/bin/libclang.dll',
-        \ ]
-    for f in paths
-        if filereadable(f)
-            return f
-        endif
-    endfor
-    return ''
-endfunction
-
-
-" Plug 'aldn/chromatica.nvim'
-let g:chromatica#libclang_path=FindLibclang()
-let g:chromatica#enable_at_startup=1
-let g:chromatica#enable_log=1
-let g:chromatica#responsive_mode=1
-
 
 Plug 'bfrg/vim-cpp-modern'
 " Disable function highlighting (affects both C and C++ files)
@@ -170,11 +140,6 @@ Plug 'bfrg/vim-cpp-modern'
 
 " Enable highlighting of named requirements (C++20 library concepts)
 let g:cpp_named_requirements_highlight = 1
-
-
-
-" Plug 'bbchung/Clamp'
-" let g:clamp_libclang_file=FindLibclang()
 
 
 
@@ -251,44 +216,88 @@ endfunction
 "  Install 'ccls' package from AUR
 
 
-Plug 'Valloric/YouCompleteMe',
-            \ { 'do': 'python install.py --clangd-completer' }
-let g:ycm_use_clangd = 1
-let g:ycm_clangd_binary_path = "clangd"
-let g:ycm_always_populate_location_list = 1
+if 0
+    Plug 'Valloric/YouCompleteMe',
+                \ { 'do': 'python install.py --clangd-completer' }
+    let g:ycm_use_clangd = 1
+    let g:ycm_clangd_binary_path = "clangd"
+    let g:ycm_always_populate_location_list = 1
+endif
 
 
-" Plug 'w0rp/ale', { 'commit': '80ef7ea2d0b22f0d8de7387a3d5bf6e9e5b72e9d' }
-"Plug 'w0rp/ale'
-" let g:ale_set_balloons = 0
-" let g:ale_sign_error = '>>'
-" let g:ale_sign_warning = '--'
-" let g:ale_set_highlights = 0
-" highlight ALEWarning ctermbg=DarkMagenta
-" let g:ale_set_loclist = 0
-" let g:ale_set_quickfix = 1
-let g:ale_open_list = 1 " show loclist/quickfix when a file contains warnings or errors
-let g:ale_keep_list_window_open = 1 " keep open even after errors disappear
+if 1
+    " Plug 'w0rp/ale', { 'commit': '80ef7ea2d0b22f0d8de7387a3d5bf6e9e5b72e9d' }
+    Plug 'w0rp/ale'
+    " problem reporting style:
+    let g:ale_set_highlights = 1 " set problem highlights ?
+    let g:ale_set_signs = 1 " set problem signs ?
+    " let g:ale_sign_error = '>>'
+    " let g:ale_sign_warning = '--'
+    let g:ale_echo_cursor = 0 " echo messages based on cursor ?
+    let g:ale_cursor_detail = 0 " display preview based on cursor ?
+    let g:ale_set_balloons = 0  " show balloons by mouse cursor?
+    let g:ale_virtualtext_cursor = 1 " show as inline text by cursor?
+    let g:ale_set_loclist = 1 " report to loclist ?
+    let g:ale_set_quickfix = 0 " report to quickfix ?
+    let g:ale_open_list = 0 " open loclist/quickfix ?
+    let g:ale_keep_list_window_open = 0 " keep open even after errors disappear ?
 
-let g:ale_linters = {
-    \ 'c': ['clangd'],
-    \ 'cpp': ['clangd'],
-    \ }
-let g:ale_cpp_clangd_options = '-log=verbose'
-" let g:ale_history_enabled = 1
-" let g:ale_history_log_output = 1
-let g:ale_completion_enabled = 0
-" set omnifunc=ale#completion#OmniFunc
+    let g:ale_linters = {
+        \ 'c': ['clangd'],
+        \ 'cpp': ['clangd'],
+        \ 'python': ['pyls'],
+        \ }
+    let g:ale_cpp_clangd_options = '-log=verbose'
+    " let g:ale_history_enabled = 1
+    " let g:ale_history_log_output = 1
+    let g:ale_completion_enabled = 1
 
-" if has('nvim')
-"   Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
-" else
-"   Plug 'Shougo/deoplete.nvim'
-"   Plug 'roxma/nvim-yarp'
-"   Plug 'roxma/vim-hug-neovim-rpc'
-" endif
-" let g:deoplete#enable_at_startup = 1
-" let g:deoplete#sources = {'_': ['ale']}
+    " if has('nvim')
+    "   Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+    " else
+    "   Plug 'Shougo/deoplete.nvim'
+    "   Plug 'roxma/nvim-yarp'
+    "   Plug 'roxma/vim-hug-neovim-rpc'
+    " endif
+    " let g:deoplete#enable_at_startup = 1
+
+endif
+
+if 0
+    Plug 'prabirshrestha/async.vim'
+    Plug 'prabirshrestha/vim-lsp'
+    Plug 'prabirshrestha/asyncomplete.vim'
+    Plug 'prabirshrestha/asyncomplete-lsp.vim'
+    Plug 'prabirshrestha/asyncomplete-file.vim'
+    let g:lsp_diagnostics_enabled = 1
+    let g:lsp_signs_enabled = 1
+    let g:lsp_diagnostics_echo_cursor = 1
+
+    let g:lsp_highlights_enabled = 0
+    let g:lsp_highlight_references_enabled = 0
+    let g:lsp_textprop_enabled = 0
+    let g:lsp_virtual_text_enabled = 0
+
+    let g:lsp_log_verbose = 1
+    let g:lsp_log_file = expand('~/vim-lsp.log')
+    let g:asyncomplete_log_file = expand('~/asyncomplete.log')
+
+    if executable('pyls')
+        " pip install python-language-server
+        au User lsp_setup call lsp#register_server({
+            \ 'name': 'pyls',
+            \ 'cmd': {server_info->['pyls']},
+            \ 'whitelist': ['python'],
+            \ })
+    endif
+    if executable('clangd')
+        au User lsp_setup call lsp#register_server({
+            \ 'name': 'clangd',
+            \ 'cmd': {server_info->['clangd', '-background-index']},
+            \ 'whitelist': ['c', 'cpp', 'objc', 'objcpp'],
+            \ })
+    endif
+endif
 
 """"""""""""""""" color schemes """"""""""""""""""
 
@@ -306,6 +315,10 @@ Plug 'fcevado/molokai_dark', { 'as': 'colo-molokai_dark' }
 Plug 'aldn/molokai-zhou13', { 'as': 'colo-molokai-zhou13' }
 
 call plug#end()
+
+" call deoplete#custom#option('sources', {
+"             \ '_': ['ale'],
+"             \})
 
 "NOTE: :PlugInstall to install plugins
 
@@ -369,6 +382,7 @@ set modelines=0                     " prevents some security exploits with model
 "set relativenumber                  " show line numbers as offsets from the current line
 "set ttyfast                         " enable faster redraws
 "set visualbell                      " blink on errors
+set winminheight=0                   " inactive window can be reduced to just a status line
 
 set ignorecase                      " ignore case when searching
 set smartcase                       " case sensitive searching if some letters are UPPERCASE
@@ -382,7 +396,6 @@ set completeopt=noinsert,menuone,noselect
 if executable('ag')
   set grepprg=ag\ --nogroup\ --nocolor
 endif
-
 
 
 "set statusline=                                     " clear
@@ -478,6 +491,13 @@ function! SchemeAfter()
         " hi MatchParen   guifg=#FD971F guibg=bg          gui=bold,underline
         " hi TabLineSel   guifg=#E6DB74 guibg=#333536
     endif
+    " LSP
+    hi lspReference ctermfg=red guifg=red ctermbg=green guibg=green
+    " ALE
+    hi ALEWarning guibg=DarkMagenta ctermbg=DarkMagenta
+    hi ALEWarningSign guibg=DarkMagenta ctermbg=DarkMagenta
+    hi ALEError guibg=DarkRed ctermbg=DarkRed
+    hi ALEErrorSign guibg=DarkRed ctermbg=DarkRed
 endfunction
 
 function! SchemeDark()
@@ -571,6 +591,12 @@ command! What echo synIDattr(synID(line('.'), col('.'), 1), 'name')
 "------------------------------------------------------------------------------
 " Autocommands
 "------------------------------------------------------------------------------
+
+" ALE omnifunc
+augroup ALEOmniFunc
+    au!
+    au BufReadPost *.cpp set omnifunc=ale#completion#OmniFunc
+augroup END
 
 
 " cursorline is visible only in active window
@@ -745,20 +771,22 @@ nnoremap <leader>o :silent OpenSession<space>
 nnoremap <leader>s :silent SaveSession<space>
 
 
-" ALE
-" nnoremap <leader>gg :ALEGoToDefinition<cr>
-" nnoremap <leader>gf :ALEFix<cr>
-" nnoremap <leader>gr :ALEFindReferences<cr>
-" nnoremap <silent> <C-k> <Plug>(ale_previous_wrap)
-" nnoremap <silent> <C-j> <Plug>(ale_next_wrap)
+" code navigation and refactoring
+nnoremap <leader>gf :ALEFix<cr>
+nnoremap <silent> <C-k> <Plug>(ale_previous_wrap)
+nnoremap <silent> <C-j> <Plug>(ale_next_wrap)
 
-" YCM
-nnoremap <leader>gg :YcmCompleter GoTo<cr>
-nnoremap <leader>gc :YcmCompleter GoToDeclaration<cr>
-nnoremap <leader>gd :YcmCompleter GoToDefinition<cr>
-nnoremap <leader>gt :YcmCompleter GetType<cr>
-nnoremap <leader>gr :YcmCompleter GoToReferences<cr>
-
+if 1
+    nnoremap <leader>gg :YcmCompleter GoTo<cr>
+    nnoremap <leader>gc :YcmCompleter GoToDeclaration<cr>
+    nnoremap <leader>gd :YcmCompleter GoToDefinition<cr>
+    nnoremap <leader>gt :YcmCompleter GetType<cr>
+    nnoremap <leader>gr :YcmCompleter GoToReferences<cr>
+endif
+if 1
+nnoremap <leader>gg :ALEGoToDefinition<cr>
+nnoremap <leader>gr :ALEFindReferences<cr>
+endif
 
 
 " fswitch
