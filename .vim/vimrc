@@ -237,9 +237,9 @@ if 1
     let g:ale_cursor_detail = 0 " display preview based on cursor ?
     let g:ale_set_balloons = 0  " show balloons by mouse cursor?
     let g:ale_virtualtext_cursor = 1 " show as inline text by cursor?
-    let g:ale_set_loclist = 1 " report to loclist ?
-    let g:ale_set_quickfix = 0 " report to quickfix ?
-    let g:ale_open_list = 0 " open loclist/quickfix ?
+    let g:ale_set_loclist = 0 " report to loclist ?
+    let g:ale_set_quickfix = 1 " report to quickfix ?
+    let g:ale_open_list = 1 " open loclist/quickfix ?
     let g:ale_keep_list_window_open = 0 " keep open even after errors disappear ?
 
     let g:ale_linters = {
@@ -247,9 +247,9 @@ if 1
         \ 'cpp': ['clangd'],
         \ 'python': ['pyls'],
         \ }
-    let g:ale_cpp_clangd_options = '-log=verbose'
-    " let g:ale_history_enabled = 1
-    " let g:ale_history_log_output = 1
+    " let g:ale_cpp_clangd_options = '-log=verbose -background-index 2>>d:/clangd.log'
+    let g:ale_history_enabled = 1
+    let g:ale_history_log_output = 1
     let g:ale_completion_enabled = 1
 
     " if has('nvim')
