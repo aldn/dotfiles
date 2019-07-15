@@ -478,7 +478,7 @@ function! SchemeAfter()
         hi CursorLineNr guifg=#FD971F   guibg=#101010
         hi LineNr       guifg=#555555   guibg=#1C1C1C
         hi MatchParen   guifg=#FD971F   guibg=bg          gui=bold,underline
-        hi TabLine      guifg=#858585   guibg=bg          gui=bold
+        hi TabLine      guifg=#FD971F   guibg=bg     gui=bold
         hi TabLineSel   guibg=#FD971F   guifg=bg
         hi Comment      guifg=#858585
     endif
@@ -491,13 +491,29 @@ function! SchemeAfter()
         " hi MatchParen   guifg=#FD971F guibg=bg          gui=bold,underline
         " hi TabLineSel   guifg=#E6DB74 guibg=#333536
     endif
+
+    " tweaks for ia-light
+    if g:colors_name =~ "ia-light"
+        hi Function       guifg=#2298a1
+    endif
+
     " LSP
     hi lspReference ctermfg=red guifg=red ctermbg=green guibg=green
     " ALE
-    hi ALEWarning guibg=DarkMagenta ctermbg=DarkMagenta
-    hi ALEWarningSign guibg=DarkMagenta ctermbg=DarkMagenta
-    hi ALEError guibg=DarkRed ctermbg=DarkRed
-    hi ALEErrorSign guibg=DarkRed ctermbg=DarkRed
+    if &background == "dark"
+        " hi ALEWarning guibg=DarkMagenta ctermbg=DarkMagenta
+        hi ALEWarning guibg=NONE ctermbg=NONE  guisp=Magenta gui=undercurl
+        hi ALEWarningSign guibg=DarkMagenta ctermbg=DarkMagenta
+        hi ALEVirtualTextWarning guibg=DarkMagenta ctermbg=DarkMagenta
+        hi ALEError guibg=NONE ctermbg=NONE guisp=Red gui=undercurl
+        hi ALEErrorSign guibg=DarkRed ctermbg=DarkRed
+        hi ALEVirtualTextError guibg=DarkRed ctermbg=DarkRed
+    else
+        hi ALEWarning guifg=Magenta ctermfg=Magenta gui=bold
+        hi ALEWarningSign guifg=Magenta ctermfg=Magenta gui=bold
+        hi ALEError guifg=Red ctermfg=Red gui=bold
+        hi ALEErrorSign guifg=Red ctermfg=Red gui=bold
+    endif
 endfunction
 
 function! SchemeDark()
@@ -513,7 +529,8 @@ endfunction
 function! SchemeLight()
     set background=light
     call SchemeBefore()
-    colo base16-one-light
+    colo base16-ia-light
+    " colo base16-summerfruit-light
     call SchemeAfter()
 endfunction
 com! Light call SchemeLight()
