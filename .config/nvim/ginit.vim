@@ -7,3 +7,4 @@ end
 
 " https://github.com/neovim/neovim/issues/9026
 GuiPopupmenu 0
+GuiTabline 0
