@@ -118,7 +118,7 @@ Plug 'junegunn/fzf'
 
 Plug 'wincent/command-t',
             \ { 'do': 'cd ruby/command-t/ext/command-t && ruby extconf.rb && make' }
-
+let g:CommandTMaxFiles=400000
 
 Plug 'vifm/vifm.vim'
 
