@@ -168,6 +168,33 @@ function! g:HeaderguardName()
     return toupper(expand('%:gs/[^0-9a-zA-Z_]/_/g'))
 endfunction
 
+Plug 'terryma/vim-multiple-cursors'
+
+Plug 'editorconfig/editorconfig-vim'
+
+Plug 'itchyny/lightline.vim'
+Plug 'maximbaz/lightline-ale'
+let g:lightline = {}
+let g:lightline.enable = {
+      \  'tabline': 0,
+      \  'statusline': 1
+      \ }
+let g:lightline.component_expand = {
+      \  'linter_checking': 'lightline#ale#checking',
+      \  'linter_warnings': 'lightline#ale#warnings',
+      \  'linter_errors': 'lightline#ale#errors',
+      \  'linter_ok': 'lightline#ale#ok',
+      \ }
+let g:lightline.component_type = {
+      \  'linter_checking': 'left',
+      \  'linter_warnings': 'warning',
+      \  'linter_errors': 'error',
+      \  'linter_ok': 'left',
+      \ }
+let g:lightline.active = {
+      \  'left': [['mode', 'paste' ], ['readonly', 'filename', 'modified']],
+      \  'right': [['lineinfo'], ['percent'], ['linter_checking', 'linter_errors', 'linter_warnings', 'linter_ok' ], ['fileformat', 'fileencoding']]
+      \ }
 
 
 """""""""""""""""""" LSP client plugins """"""""""""""""""""
@@ -235,7 +262,7 @@ if 1
     " let g:ale_sign_warning = '--'
     let g:ale_echo_cursor = 0 " echo messages based on cursor ?
     let g:ale_cursor_detail = 0 " display preview based on cursor ?
-    let g:ale_set_balloons = 0  " show balloons by mouse cursor?
+    let g:ale_set_balloons = 1  " show balloons by mouse cursor?
     let g:ale_virtualtext_cursor = 1 " show as inline text by cursor?
     let g:ale_set_loclist = 0 " report to loclist ?
     let g:ale_set_quickfix = 1 " report to quickfix ?
@@ -313,6 +340,9 @@ Plug 'tomasr/molokai', { 'as': 'colo-molokai' }
 Plug 'fmoralesc/molokayo', { 'as': 'colo-molokayo' }
 Plug 'fcevado/molokai_dark', { 'as': 'colo-molokai_dark' }
 Plug 'aldn/molokai-zhou13', { 'as': 'colo-molokai-zhou13' }
+Plug 'morhetz/gruvbox', { 'as': 'colo-gruvbox' }
+" also see https://github.com/morhetz/gruvbox-contrib for terminal theme
+Plug 'noahfrederick/vim-noctu', { 'as': 'colo-noctu' }
 
 call plug#end()
 
@@ -497,6 +527,13 @@ function! SchemeAfter()
         hi Function       guifg=#2298a1
     endif
 
+    " tweaks for gruvbox
+    if g:colors_name =~ "gruvbox"
+        let g:gruvbox_vert_split = 'bg1'
+        let g:gruvbox_sign_column = 'bg0'
+    endif
+
+
     " LSP
     hi lspReference ctermfg=red guifg=red ctermbg=green guibg=green
     " ALE
@@ -524,6 +561,8 @@ function! SchemeDark()
     " colo molokayo
     " colo harlequin
     " colo monokai
+    " colo noctu
+    " colo gruvbox
     call SchemeAfter()
 endfunction
 function! SchemeLight()
@@ -644,34 +683,15 @@ au BufReadPost *
 \ endif
 
 
-
 " Autosave all open buffers upon losing focus
 " Used silent modifier to prevent error messages with new buffers
 "au FocusLost * :silent! wa
+
 
 " Show vertical bar to know when the line of code is too long
 " Only do that for the files with source code.
 "au FileType c,cpp,python,bash set colorcolumn=85
 
-
-
-" Specific indent rules at work
-function! ApplyIndentRules()
-    if (strridx(expand("%:p:h"), "p4") != -1)
-       setlocal ts=3 sw=3 sts=-1 et             " 3 spaces to indent, expand tabs with spaces
-    "else
-    "   setlocal ts=4 sw=4 sts=-1 et             " 4 spaces to indent, expand tabs with spaces
-    endif
-endfunction
-au! BufNew,BufReadPost,BufWritePost * call ApplyIndentRules()
-
-" make command
-" function! SetMakeCommand()
-"     if (strridx(getcwd(), "p4") != -1)
-"        setlocal makeprg=buildcentral.bat\ -b\ -s=2\ -p\ fastrebuild.hbbc
-"     endif
-" endfunction
-" au! BufEnter * call SetMakeCommand()
 
 "fswitch
 au! BufEnter *.cpp let b:fswitchdst = 'hpp' | let b:fswitchlocs = './,..,../include/'
@@ -789,21 +809,14 @@ nnoremap <leader>s :silent SaveSession<space>
 
 
 " code navigation and refactoring
-nnoremap <leader>gf :ALEFix<cr>
 nnoremap <silent> <C-k> <Plug>(ale_previous_wrap)
 nnoremap <silent> <C-j> <Plug>(ale_next_wrap)
 
-if 1
-    nnoremap <leader>gg :YcmCompleter GoTo<cr>
-    nnoremap <leader>gc :YcmCompleter GoToDeclaration<cr>
-    nnoremap <leader>gd :YcmCompleter GoToDefinition<cr>
-    nnoremap <leader>gt :YcmCompleter GetType<cr>
-    nnoremap <leader>gr :YcmCompleter GoToReferences<cr>
-endif
-if 1
 nnoremap <leader>gg :ALEGoToDefinition<cr>
 nnoremap <leader>gr :ALEFindReferences<cr>
-endif
+nnoremap <leader>gi :ALEHover<cr>
+nnoremap <leader>gs :ALESymbolSearch<cr>
+nnoremap <leader>gf :ALEFix<cr>
 
 
 " fswitch
