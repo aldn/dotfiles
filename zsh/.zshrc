@@ -34,7 +34,7 @@ plugins=(git)
 ZSH=/usr/share/oh-my-zsh/
 ZSH_THEME="common"
 # ZSH_THEME="minimal"
-ZSH_CUSTOM=$HOME/.oh-my-zsh/custom
+ZSH_CUSTOM=$HOME/.cfg/zsh/omz/custom
 ZSH_CACHE_DIR=$HOME/.cache/oh-my-zsh
 if [[ ! -d $ZSH_CACHE_DIR ]]; then
   mkdir $ZSH_CACHE_DIR
@@ -90,6 +90,11 @@ DISABLE_AUTO_UPDATE="true"
 ###########################################
 # common shell config
 ###########################################
-[[ -e ~/.profile ]] && emulate sh -c 'source ~/.profile'
-[[ -e ~/.shrc.sh ]] && emulate sh -c 'source ~/.shrc.sh'
+source_env_file() {
+    [[ -e ~/.cfg/env/$1 ]] && emulate sh -c 'source ~/.cfg/env/$1'
+}
+
+source_env_file vars
+source_env_file aliases
+source_env_file subs
 

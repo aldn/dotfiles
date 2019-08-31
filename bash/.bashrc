@@ -1,13 +1,14 @@
+source_env_file() {
+    [[ -f ~/.cfg/env/$1 ]] && . ~/.cfg/env/$1
+}
 
-# Load environment configuration
-[[ -f ~/.profile ]] && . ~/.profile
+source_env_file vars
 
 # Execute the rest of the script only if interactive shell
 [[ $- != *i* ]] && return
 
-
-[[ -f ~/.shrc.sh ]] && . ~/.shrc.sh
-
+source_env_file aliases
+source_env_file subs
 
 
 # Always check for window size updates
