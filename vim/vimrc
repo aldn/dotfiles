@@ -116,31 +116,11 @@ Plug 'junegunn/fzf'
 "     let $FZF_DEFAULT_COMMAND='ag --path-to-ignore ~/.ignore --hidden -g ""'
 " endif
 
-Plug 'wincent/command-t',
-            \ { 'do': 'cd ruby/command-t/ext/command-t && ruby extconf.rb && make' }
+" Plug 'wincent/command-t',
+"             \ { 'do': 'cd ruby/command-t/ext/command-t && ruby extconf.rb && make' }
 let g:CommandTMaxFiles=400000
 
-Plug 'vifm/vifm.vim'
-
-" supertab
-Plug 'ervandew/supertab'
-let g:SuperTabDefaultCompletionType = "<c-n>"
-let g:SuperTabContextDefaultCompletionType = "<c-n>"
-
-
-
-
-Plug 'bfrg/vim-cpp-modern'
-" Disable function highlighting (affects both C and C++ files)
-" let g:cpp_no_function_highlight = 1
-"
-" Put all standard C and C++ keywords under Vim's highlight group `Statement`
-" (affects both C and C++ files)
-" let g:cpp_simple_highlight = 1
-
-" Enable highlighting of named requirements (C++20 library concepts)
-let g:cpp_named_requirements_highlight = 1
-
+" Plug 'vifm/vifm.vim'
 
 
 "Plug 'ctrlpvim/ctrlp.vim'
@@ -163,17 +143,78 @@ endif
 " let g:ctrlp_match_func = {'match': 'cpsm#CtrlPMatch'}
 
 
+Plug 'vim-ctrlspace/vim-ctrlspace'
+if has('nvim')
+  let g:CtrlSpaceDefaultMappingKey = '<C-space> '
+endif
+
+
 Plug 'vim-scripts/headerguard'
 function! g:HeaderguardName()
     return toupper(expand('%:gs/[^0-9a-zA-Z_]/_/g'))
 endfunction
 
+" supertab
+Plug 'ervandew/supertab'
+let g:SuperTabDefaultCompletionType = "<c-n>"
+let g:SuperTabContextDefaultCompletionType = "<c-n>"
+
+
+Plug 'bfrg/vim-cpp-modern'
+" Disable function highlighting (affects both C and C++ files)
+" let g:cpp_no_function_highlight = 1
+"
+" Put all standard C and C++ keywords under Vim's highlight group `Statement`
+" (affects both C and C++ files)
+" let g:cpp_simple_highlight = 1
+
+" Enable highlighting of named requirements (C++20 library concepts)
+let g:cpp_named_requirements_highlight = 1
+
+
 Plug 'terryma/vim-multiple-cursors'
 
 Plug 'editorconfig/editorconfig-vim'
 
-Plug 'itchyny/lightline.vim'
-Plug 'maximbaz/lightline-ale'
+Plug 'vim-airline/vim-airline'
+" display tab bar
+let g:airline#extensions#tabline#enabled = 0
+let g:airline#extensions#taboo#enabled = 0
+" display minimal position info as line:column
+let g:airline_section_z = '%l:%c%V'
+" hide encoding/fileformat block if it matches utf-8/unix
+let g:airline#parts#ffenc#skip_expected_string='utf-8[unix]'
+" shorter mode name
+let g:airline_mode_map = {
+      \ '__'     : '-i',
+      \ 'c'      : 'C',
+      \ 'i'      : 'I',
+      \ 'ic'     : 'I',
+      \ 'ix'     : 'I',
+      \ 'n'      : 'N',
+      \ 'multi'  : 'M',
+      \ 'ni'     : 'N',
+      \ 'no'     : 'N',
+      \ 'R'      : 'R',
+      \ 'Rv'     : 'R',
+      \ 's'      : 'S',
+      \ 'S'      : 'S',
+      \ ''     : 'S',
+      \ 't'      : 'T',
+      \ 'v'      : 'V',
+      \ 'V'      : 'V',
+      \ ''     : 'V',
+      \ }
+let g:airline#extensions#default#section_truncate_width = {
+      \ 'b': 30,
+      \ 'x': 20,
+      \ 'y': 4,
+      \ 'z': 4,
+      \ 'warning': 80,
+      \ 'error': 80,
+      \ }
+" Plug 'itchyny/lightline.vim'
+" Plug 'maximbaz/lightline-ale'
 let g:lightline = {}
 let g:lightline.enable = {
       \  'tabline': 0,
@@ -197,6 +238,11 @@ let g:lightline.active = {
       \ }
 
 
+Plug 'samoshkin/vim-mergetool'
+let g:mergetool_layout = 'mr'
+let g:mergetool_prefer_revision = 'local'
+
+
 """""""""""""""""""" LSP client plugins """"""""""""""""""""
 
 " PREREQUISITES:
@@ -211,7 +257,7 @@ let g:lightline.active = {
 " $ brew tap twlz0ne/homebrew-ccls
 " $ brew install ccls
 "
-" Rename binary to /usr/local/bin/ccls1 and create script /usr/local/bin/ccls: 
+" Rename binary to /usr/local/bin/ccls1 and create script /usr/local/bin/ccls:
 "```
 " #!/bin/sh
 " exec ccls1 --log-file=/tmp/ccls.log -v=1 -init='{"clang":{"extraArgs":["-isystem", "/Library/Developer/CommandLineTools/usr/include/c++/v1"]}}' "$@"
@@ -274,7 +320,12 @@ if 1
         \ 'cpp': ['clangd'],
         \ 'python': ['pyls'],
         \ }
-    " let g:ale_cpp_clangd_options = '-log=verbose -background-index 2>>d:/clangd.log'
+    if has('win32')
+        let s:clangd_log = 'd:/clangd.log'
+    else
+        let s:clangd_log = '/tmp/clangd.log'
+    endif
+    let g:ale_cpp_clangd_options = '-log=verbose -background-index 2>>'.s:clangd_log
     let g:ale_history_enabled = 1
     let g:ale_history_log_output = 1
     let g:ale_completion_enabled = 1
@@ -380,6 +431,7 @@ if has("win32")
     set fileencoding=utf-8          " UTF-8 as default encoding for new files
 end
 
+set hidden                          " buffer becomes hidden when it is abandoned
 "set nocompatible                    " use Vim's defaults instead of Vi's. Should be the
                                     " first set comand.
 set fileformats=unix,dos            " use unix-style line endings by default
@@ -399,14 +451,15 @@ set sessionoptions=globals,curdir,tabpages,resize,winpos,winsize
 set clipboard=unnamedplus
 "set scrolloff=999                   " keep cursor centered vertically
 set mouse=a                         " enable mouse in all modes
-if !empty($TERM)
-    set mouse=
-endif
+" if !empty($TERM)
+"     set mouse=
+" endif
 set number                          " show line numbers
 set showmode                        " show INSERT and VISUAL mode indication in status line
 set showcmd                         " display incomplete commands in the bottom bar
 "set cursorline                      " highlight current line
 set laststatus=2                    " always show status line
+set showtabline=0                   " hide tab line
 "set highlight+=sn                   " highlight status line and line numbers
 set modelines=0                     " prevents some security exploits with modelines
 "set relativenumber                  " show line numbers as offsets from the current line
@@ -793,9 +846,6 @@ nnoremap <leader>f :NERDTreeToggle<cr>
 " Highlight currently open buffer in NERDTree
 nnoremap <leader>n :NERDTreeFind<CR>
 
-" ripgrep
-nnoremap <leader>a :Rg 
-
 " open vimrc in the vertical split
 " note: can't use $MYVIMRC because for neovim it's init.vim and not this file
 nnoremap <leader>ev <C-w><C-v><C-l>:e <C-r>=g:myvimrc<cr><cr>
@@ -848,5 +898,5 @@ endfunction
 nnoremap <leader>cd :call NERDCommenterSwitchDoxygenMode()<cr>
 
 " Neomake
-nnoremap <leader>b :Neomake! 
+nnoremap <leader>b :Neomake!<space>
 

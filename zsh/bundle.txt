@@ -1,0 +1,13 @@
+# todo: see https://github.com/caarlos0/dotfiles/antibody/bundles.txt
+
+mafredri/zsh-async
+#robbyrussell/oh-my-zsh path:plugins/git
+zsh-users/zsh-completions
+zsh-users/zsh-autosuggestions
+
+# theme
+sindresorhus/pure
+
+#zsh-users/zsh-syntax-highlighting
+zdharma/fast-syntax-highlighting
+zsh-users/zsh-history-substring-search

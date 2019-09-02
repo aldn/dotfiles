@@ -1,8 +1,14 @@
-alias cp="cp -i"                          # confirm before overwriting something
+alias cp='cp -i'                          # confirm before overwriting something
+alias rm='rm -i'
 alias df='df -h'                          # human-readable sizes
 alias free='free -m'                      # show sizes in MB
 alias ls='ls --color=auto'
+alias ll='ls -alF'
+alias la='ls -A'
+alias l='ls -CF'
 alias grep='grep --color=auto'
+alias fgrep='fgrep --color=auto'
+alias egrep='egrep --color=auto'
 alias diff='diff --color=auto'
 alias more='less'
 alias pac='sudo pacman -S'
@@ -10,8 +16,4 @@ alias upd='sudo pacman -Syu'
 alias aur=trizen
 alias e=nvim
 alias bc='bc -q'
-alias optirun-nvidia-settings='optirun -b none nvidia-settings -c :8'
-alias qemu-run-windows='qemu-system-x86_64 -enable-kvm -smp cores=2,threads=4 -m 2048 -soundhw hda  /mnt/hdd/vm/Windows7/Windows7.img'
 alias ps-total-mem="ps aux --sort rss | awk '{sum += \$6} END {print sum}'"
-alias config='/usr/bin/git --git-dir=$HOME/.cfg/ --work-tree=$HOME'
-

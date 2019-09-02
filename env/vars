@@ -1,16 +1,29 @@
 
+# preferred locale
+def_locale=en_US.UTF-8
+# 1 for normal ppi displays, >1 for retina-type displays
+dpi_scale=1
+
+
+export LANG=$def_locale
+# export LANGUAGE=en_US:en
+# export LC_MONETARY=$def_locale
+# export LC_MEASUREMENT=$def_locale
+# export LC_NUMERIC=$def_locale
+# export LC_TIME=$def_locale
+export LC_ALL=$def_locale
+
 export PATH=$HOME/bin:~/.gem/ruby/2.5.0/bin:$PATH
 export EDITOR=nvim
 
-# 1 for normal ppi displays, >1 for retina-type displays
-DPI_SCALE=1
-
-export GDK_SCALE=$DPI_SCALE
-export QT_SCALE_FACTOR=$DPI_SCALE
-
-#export HISTFILESIZE=
-#export HISTSIZE=
-#export HISTTIMEFORMAT='[%F %T] '
+# wayland
+export GDK_SCALE=$dpi_scale
+export QT_SCALE_FACTOR=$dpi_scale
+export GDK_BACKEND=wayland
+export QT_QPA_PLATFORM=wayland
+export QT_QPA_PLATFORMTHEME=qt5ct
+export QT_WAYLAND_DISABLE_WINDOWDECORATION=1
+export SDL_VIDEODRIVER=wayland
 
 # Repaint screen upon exiting less
 #export LESS=R

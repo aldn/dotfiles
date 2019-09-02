@@ -1,4 +1,3 @@
-
 ### Variables
 #
 # Logo key. Use Mod1 for Alt.
@@ -57,10 +56,14 @@ output * bg /usr/share/backgrounds/sway/Sway_Wallpaper_Blue_1920x1080.png fill
 # You can get the names of your inputs by running: swaymsg -t get_inputs
 # Read `man 5 sway-input` for more information about this section.
 
-input "6700:11303:USB_USB_Keyboard" {
+input "type:keyboard" {
     xkb_layout us,ru
     # xkb_variant ,nodeadkeys
     xkb_options grp:alt_shift_toggle
+}
+
+input "type:pointer" {
+    accel_profile flat
 }
 
 
@@ -267,6 +270,7 @@ hide_edge_borders both
 
 #----------------- filters
 for_window [title="[.]*"] floating enable
+for_window [class="kitty"] floating disable
 for_window [app_id="termite"] floating disable
 for_window [app_id="nvim-qt"] floating disable, border pixel 2
 for_window [title="Firefox"] floating disable, border pixel 2
@@ -307,10 +311,10 @@ for_window [app_id="^tildeterminal$"] floating enable, sticky enable, border pix
 bindcode $mod+49 exec python3 $HOME/.config/sway/tilde_terminal.py
 
 # exec rm -f $file_tilde_vis
-exec termite --name=tildeterminal
+#exec termite --name=tildeterminal
 
 
 #----------------- run
-exec --no-startup-id mako    # notification daemon
+#exec --no-startup-id mako    # notification daemon
 
 
