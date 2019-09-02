@@ -307,7 +307,7 @@ if 1
     else
         let s:clangd_log = '/tmp/clangd.log'
     endif
-    let g:ale_cpp_clangd_options = '-log=verbose -background-index 2>>'.s:clangd_log
+    " let g:ale_cpp_clangd_options = '-log=verbose -background-index 2>>'.s:clangd_log
     let g:ale_history_enabled = 1
     let g:ale_history_log_output = 1
     let g:ale_completion_enabled = 1
@@ -542,8 +542,8 @@ function! SchemeAfter()
         hi CursorLine                   guibg=#101010
         hi CursorLineNr guifg=#FD971F   guibg=#101010
         hi LineNr       guifg=#555555   guibg=#1C1C1C
-        hi MatchParen   guifg=#FD971F   guibg=bg          gui=bold,underline
-        hi TabLine      guifg=#FD971F   guibg=bg     gui=bold
+        hi MatchParen   guifg=#FD971F   guibg=bg        gui=bold,underline
+        hi TabLine      guifg=#FD971F   guibg=bg        gui=bold
         hi TabLineSel   guibg=#FD971F   guifg=bg
         hi Comment      guifg=#858585
     endif
