@@ -1,0 +1,5 @@
+cache=auto
+cache-default=3000
+hwdec=auto
+#opengl-swapinterval=0
+opengl-early-flush=no
