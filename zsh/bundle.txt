@@ -6,7 +6,9 @@ zsh-users/zsh-completions
 zsh-users/zsh-autosuggestions
 
 # theme
-sindresorhus/pure
+#sindresorhus/pure
+#dfurnes/purer
+aldn/purer
 
 #zsh-users/zsh-syntax-highlighting
 zdharma/fast-syntax-highlighting
