@@ -36,7 +36,10 @@ zle -N down-line-or-beginning-search
 # prompt
 ##################
 #PURE_PROMPT_SYMBOL_COLOR="cyan"
-
+PURE_CMD_MAX_EXEC_TIME=10
+zstyle :prompt:pure:path color white
+zstyle :prompt:pure:prompt:success color cyan
+#zstyle :prompt:pure:prompt:error color cyan
 
 ##################
 # extra conf
