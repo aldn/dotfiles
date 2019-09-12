@@ -16,14 +16,13 @@ call plug#begin(g:vimrc_dir . '/plugged')
 
 
 " dependency of vim-session
-Plug 'xolox/vim-misc'
-
-Plug 'xolox/vim-session'
-let g:session_autoload = 'no'
-let g:session_autosave = 'no'
-let g:session_lock_enabled = 0
-let g:session_persist_font = 0
-let g:session_persist_colors = 0
+" Plug 'xolox/vim-misc'
+" Plug 'xolox/vim-session'
+" let g:session_autoload = 'no'
+" let g:session_autosave = 'no'
+" let g:session_lock_enabled = 0
+" let g:session_persist_font = 0
+" let g:session_persist_colors = 0
 
 
 Plug 'junegunn/vim-easy-align'
@@ -52,7 +51,7 @@ Plug 'vim-scripts/argtextobj.vim'
 " required by vim-protodef
 Plug 'derekwyatt/vim-fswitch'
 Plug 'derekwyatt/vim-protodef'
-Plug 'gcmt/taboo.vim'
+" Plug 'gcmt/taboo.vim'
 "Plug 'vim-scripts/YankRing.vim'
 "Plug 'fholgado/minibufexpl.vim'
 Plug 'nfvs/vim-perforce'
@@ -147,6 +146,10 @@ Plug 'vim-ctrlspace/vim-ctrlspace'
 if has('nvim')
   let g:CtrlSpaceDefaultMappingKey = '<C-space> '
 endif
+if executable("ag")
+    let g:CtrlSpaceGlobCommand = 'ag -l --nocolor -g ""'
+endif
+let g:CtrlSpaceUseTabline = 1
 
 
 Plug 'vim-scripts/headerguard'
@@ -441,7 +444,7 @@ set showmode                        " show INSERT and VISUAL mode indication in 
 set showcmd                         " display incomplete commands in the bottom bar
 "set cursorline                      " highlight current line
 set laststatus=2                    " always show status line
-set showtabline=0                   " hide tab line
+set showtabline=1                   " show tab line when more than one tab
 "set highlight+=sn                   " highlight status line and line numbers
 set modelines=0                     " prevents some security exploits with modelines
 "set relativenumber                  " show line numbers as offsets from the current line
@@ -836,8 +839,8 @@ nnoremap <leader>ev <C-w><C-v><C-l>:e <C-r>=g:myvimrc<cr><cr>
 "nnoremap <silent> <F11> :YRShow<cr>
 
 " open/save session
-nnoremap <leader>o :silent OpenSession<space>
-nnoremap <leader>s :silent SaveSession<space>
+" nnoremap <leader>o :silent OpenSession<space>
+" nnoremap <leader>s :silent SaveSession<space>
 
 
 " code navigation and refactoring
@@ -856,9 +859,20 @@ nnoremap <leader>gf :ALEFix<cr>
 nnoremap <leader>oo :FSHere<CR>
 
 " command-t
-nmap <silent> <leader>m <Plug>(CommandT)
-nmap <silent> <leader>. <Plug>(CommandTBuffer)
-nmap <silent> <leader>j <Plug>(CommandTJump)
+" nmap <silent> <leader>m <Plug>(CommandT)
+" nmap <silent> <leader>. <Plug>(CommandTBuffer)
+" nmap <silent> <leader>j <Plug>(CommandTJump)
+
+"file list
+nnoremap <silent><leader>m :CtrlSpace o<CR>
+"buffer list
+nnoremap <silent><leader>. :CtrlSpace<CR>
+"load workspace
+nnoremap <silent><leader>o :CtrlSpace w<CR>
+"save workspace
+nnoremap <silent><leader>s :CtrlSpace ws<CR>
+
+
 
 " copy current file name to clipboard
 nnoremap <leader>ys :let @*=substitute(expand("%"), "\\", "/", "g")<CR>
