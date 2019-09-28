@@ -34,6 +34,8 @@ export GREP_COLOR='1;32'
 # Perform fzf searches using ag, with options
 export FZF_DEFAULT_COMMAND='ag --hidden --depth=10 --ignore .git -f -g ""'
 
+export MAKEFLAGS="-j$(grep processor /proc/cpuinfo|wc -l)"
+
 # Set true 256-color gruvbox colour palette for Vim theme
 #if [ -d ~/.vim/plugged/colo-gruvbox ]; then
 #    source ~/.vim/plugged/colo-gruvbox/gruvbox_256palette.sh
