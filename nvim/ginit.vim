@@ -1,8 +1,7 @@
 if has('win32')
-    " GuiFont SF Mono:h10
     GuiFont Consolas:h10
 else
-    GuiFont Source Code Pro:h10
+    GuiFont Meslo LG S:h9
 end
 
 " https://github.com/neovim/neovim/issues/9026

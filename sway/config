@@ -14,6 +14,8 @@ set $term termite
 set $color_hi #9d65ff
 # set $color_text_hi #202020
 set $color_text_hi #ffffff
+set $font Open Sans
+# set $font Cantarell
 
 
 
@@ -231,7 +233,7 @@ bindsym Mod1+Tab focus right
 # Read `man 5 sway-bar` for more information about this section.
 bar {
     position top
-    font monospace 10
+    font $font 10
     height 20
     tray_output primary
     # status_padding 1
@@ -256,7 +258,7 @@ bar {
 ###################################################################
 
 #----------------- style
-font open sans semibold 10
+font $font Semibold 10
 titlebar_padding 5 1
 titlebar_border_thickness 0
 #feature                  border    bg        text      indicator  childborder
