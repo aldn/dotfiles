@@ -54,11 +54,78 @@ hyperlinks = true
 
 
 
-# Monokai Remastered
-# [colors]
-# background = "#0c0c0c"
-# cursor = "#fc971f"
-# foreground = "#d9d9d9"
+[colors]
+
+
+#################################################
+# Base16 Monokai
+# Author: Wimer Hazenberg (http://www.monokai.nl)
+#################################################
+
+foreground          = #f8f8f2
+foreground_bold     = #f5f4f1
+cursor              = #f5f4f1
+cursor_foreground   = #272822
+background          = rgba(39, 40, 34)
+background          = #1c1c1c
+color0  = #272822
+color8  = #75715e
+color7  = #f8f8f2
+color15 = #f9f8f5
+color1  = #f92672
+color9  = #f92672
+color2  = #a6e22e
+color10 = #a6e22e
+color3  = #f4bf75
+color11 = #f4bf75
+color4  = #66d9ef
+color12 = #66d9ef
+color5  = #ae81ff
+color13 = #ae81ff
+color6  = #a1efe4
+color14 = #a1efe4
+# color16 = #fd971f
+# color17 = #cc6633
+# color18 = #383830
+# color19 = #49483e
+# color20 = #a59f85
+# color21 = #f5f4f1
+
+
+
+#################################################
+#dimmed monokai
+#################################################
+# background = #1f1f1f
+# cursor = #f83e19
+# foreground = #b9bcba
+# color0 = #3a3d43
+# color1 = #be3f48
+# color2 = #879a3b
+# color3 = #c5a635
+# color4 = #4f76a1
+# color5 = #855c8d
+# color6 = #578fa4
+# color7 = #b9bcba
+# color8 = #888987
+# color9 = #fb001f
+# color10 = #0f722f
+# color11 = #c47033
+# color12 = #186de3
+# color13 = #fb0067
+# color14 = #2e706d
+# color15 = #fdffb9
+# colorBD = #feffb2
+# colorIT =
+# colorUL =
+
+
+#################################################
+# monokai remastered
+#################################################
+# background = #0c0c0c
+# cursor = #fc971f
+# foreground = #d9d9d9
 # color0 = #1a1a1a
 # color1 = #f4005f
 # color2 = #98e024
@@ -80,37 +147,39 @@ hyperlinks = true
 # colorUL =
 
 
-# Monokai Soda
-[colors]
-background = "#1a1a1a"
-cursor = "#f6f7ec"
-foreground = "#c4c5b5"
-color0 = #1a1a1a
-color1 = #f4005f
-color2 = #98e024
-color3 = #fa8419
-color4 = #9d65ff
-color5 = #f4005f
-color6 = #58d1eb
-color7 = #c4c5b5
-color8 = #625e4c
-color9 = #f4005f
-color10 = #98e024
-color11 = #e0d561
-color12 = #9d65ff
-color13 = #f4005f
-color14 = #58d1eb
-color15 = #f6f6ef
-colorBD = #c4c5b5
-colorIT =
-colorUL =
+#################################################
+# monokai soda
+#################################################
+# background = #1a1a1a
+# cursor = #f6f7ec
+# foreground = #c4c5b5
+# color0 = #1a1a1a
+# color1 = #f4005f
+# color2 = #98e024
+# color3 = #fa8419
+# color4 = #9d65ff
+# color5 = #f4005f
+# color6 = #58d1eb
+# color7 = #c4c5b5
+# color8 = #625e4c
+# color9 = #f4005f
+# color10 = #98e024
+# color11 = #e0d561
+# color12 = #9d65ff
+# color13 = #f4005f
+# color14 = #58d1eb
+# color15 = #f6f6ef
+# colorBD = #c4c5b5
+# colorIT =
+# colorUL =
 
 
-# Monokai Vivid
-# [colors]
-# background = "#121212"
-# cursor = "#fb0007"
-# foreground = "#f9f9f9"
+#################################################
+#monokai vivid
+#################################################
+# background = #121212
+# cursor = #fb0007
+# foreground = #f9f9f9
 # color0 = #121212
 # color1 = #fa2934
 # color2 = #98e123
