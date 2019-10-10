@@ -10,10 +10,14 @@ set $right l
 # Your preferred terminal emulator
 set $term termite
 
-# set $color_hi #f4005f
+set $color_hi #f4005f
 set $color_hi #9d65ff
-# set $color_text_hi #202020
+set $color_hi #eeeeee
+
+set $color_text_hi #202020
 set $color_text_hi #ffffff
+set $color_text_hi #111111
+
 set $font Open Sans
 # set $font Cantarell
 
@@ -22,7 +26,8 @@ set $font Open Sans
 ### Output configuration
 #
 # Default wallpaper (more resolutions are available in /usr/share/backgrounds/sway/)
-output * bg /usr/share/backgrounds/sway/Sway_Wallpaper_Blue_1920x1080.png fill
+output * bg #304050 solid_color
+output * subpixel rgb
 #
 # Example configuration:
 #
@@ -248,8 +253,8 @@ bar {
         background #323232
 
         #feature            border    bg        text
-        inactive_workspace  #323232   #323232   #5c5c5c
-        focused_workspace   $color_hi   $color_hi   #ffffff
+        inactive_workspace  #333333   #333333   #666666
+        focused_workspace   $color_hi   $color_hi   $color_text_hi
         # active_workspace
         # urgent_workspace
     }
@@ -268,7 +273,7 @@ client.focused            $color_hi   $color_hi   $color_text_hi   $color_hi  $c
 #----------------- options
 focus_follows_mouse no
 workspace_auto_back_and_forth yes
-hide_edge_borders both
+# hide_edge_borders both
 
 #----------------- filters
 for_window [title="[.]*"] floating enable
@@ -283,6 +288,9 @@ for_window [title="Firefox"] floating disable, border pixel 2
 # for_window [app_id="org.remmina.Remmina"] floating enable
 # for_window [app_id="qt5ct"] floating enable
 # for_window [app_id="keepassxc"] floating enable
+for_window [app_id="qmlnotify"] floating enable, sticky enable, border none, move position 1600 0
+no_focus [app_id="qmlnotify"]
+# for_window [class="XEyes"] floating enable, sticky enable, border none, move position 200 -30, resize set 30 15
 
 
 #------------------ app list
@@ -319,4 +327,5 @@ bindcode $mod+49 exec python3 $HOME/.config/sway/tilde_terminal.py
 #----------------- run
 #exec --no-startup-id mako    # notification daemon
 
-
+exec --no-startup-id /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1
+exec --no-startup-id ~/reps/qotifly/build/qmlnotify --qml ~/reps/qotifly/src/qml/examples/FlatDarkBorder.qml
