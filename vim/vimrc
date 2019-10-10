@@ -365,13 +365,11 @@ endif
 """"""""""""""""" color schemes """"""""""""""""""
 
 " Plug 'flazz/vim-colorschemes'
-" Plug 'sickill/vim-monokai', { 'as': 'colo-monokai' }
-" Plug 'aldn/vim-monokai-tasty', { 'as': 'colo-monokai-tasty' }
 " Plug 'joshdick/onedark.vim', { 'as': 'colo-onedark' }
 " Plug 'KeitaNakamura/neodark.vim', { 'as': 'colo-neodark' }
 " Plug 'rakr/vim-one', { 'as': 'colo-one' }
 " Plug 'nielsmadan/harlequin', { 'as': 'colo-harlequin' }
-Plug 'chriskempson/base16-vim', { 'as': 'colo-base16' }
+" Plug 'chriskempson/base16-vim', { 'as': 'colo-base16' }
 Plug 'tomasr/molokai', { 'as': 'colo-molokai' }
 Plug 'fmoralesc/molokayo', { 'as': 'colo-molokayo' }
 Plug 'fcevado/molokai_dark', { 'as': 'colo-molokai_dark' }
@@ -379,6 +377,10 @@ Plug 'aldn/molokai-zhou13', { 'as': 'colo-molokai-zhou13' }
 Plug 'morhetz/gruvbox', { 'as': 'colo-gruvbox' }
 " also see https://github.com/morhetz/gruvbox-contrib for terminal theme
 Plug 'noahfrederick/vim-noctu', { 'as': 'colo-noctu' }
+Plug 'sickill/vim-monokai', { 'as': 'colo-monokai' }
+Plug 'patstockwell/vim-monokai-tasty', { 'as': 'colo-monokai-tasty' }
+Plug 'erichain/vim-monokai-pro', { 'as': 'colo-monokai-pro' }
+Plug 'erichdongubler/vim-sublime-monokai', { 'as': 'colo-monokai-sublime' }
 
 call plug#end()
 
@@ -571,6 +573,23 @@ function! SchemeAfter()
         let g:gruvbox_sign_column = 'bg0'
     endif
 
+    " tweaks for monokai_pro
+    if g:colors_name =~ "monokai_pro"
+        hi Comment guifg=#858585 ctermfg=244
+        hi CursorLine guibg=#333333 ctermbg=236
+        hi LineNr guifg=#606060
+        hi CursorLineNr guibg=#333333
+        hi StatusLine ctermbg=255 ctermfg=232 cterm=bold guifg=#000000 guibg=#cccccc guisp=NONE gui=bold
+        hi StatusLineNC ctermbg=244 ctermfg=235 cterm=NONE guifg=#222222 guibg=#666666 guisp=NONE gui=NONE
+        hi ErrorMsg guibg=#e14a6f
+        " make NERDTree directory colors consistent with ranger
+        hi link NERDTreeDir          Type
+        hi link NERDTreeClosable     NERDTreeDir
+        hi link NERDTreeOpenable     NERDTreeDir
+        hi link NERDTreeDirSlash     Directory
+        hi link NERDTreeLinkTarget   Directory
+    endif
+
 
     " LSP
     hi lspReference ctermfg=red guifg=red ctermbg=green guibg=green
@@ -594,11 +613,12 @@ endfunction
 function! SchemeDark()
     set background=dark
     call SchemeBefore()
-    colo molokai
+    " colo molokai
     " colo molokai-zhou13
     " colo molokayo
     " colo harlequin
     " colo monokai
+    colo monokai_pro
     " colo noctu
     " colo gruvbox
     call SchemeAfter()
