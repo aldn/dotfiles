@@ -370,13 +370,21 @@ endif
 " Plug 'rakr/vim-one', { 'as': 'colo-one' }
 " Plug 'nielsmadan/harlequin', { 'as': 'colo-harlequin' }
 " Plug 'chriskempson/base16-vim', { 'as': 'colo-base16' }
+
 Plug 'tomasr/molokai', { 'as': 'colo-molokai' }
 Plug 'fmoralesc/molokayo', { 'as': 'colo-molokayo' }
 Plug 'fcevado/molokai_dark', { 'as': 'colo-molokai_dark' }
 Plug 'aldn/molokai-zhou13', { 'as': 'colo-molokai-zhou13' }
+
 Plug 'morhetz/gruvbox', { 'as': 'colo-gruvbox' }
 " also see https://github.com/morhetz/gruvbox-contrib for terminal theme
 Plug 'noahfrederick/vim-noctu', { 'as': 'colo-noctu' }
+
+Plug 'noahfrederick/vim-hemisu', { 'as': 'colo-hemisu' }
+Plug 'NLKNguyen/papercolor-theme', { 'as': 'colo-papercolor' }
+Plug 'rakr/vim-two-firewatch', { 'as': 'colo-two-firewatch' }
+Plug 'cormacrelf/vim-colors-github', { 'as': 'colo-github' }
+
 Plug 'sickill/vim-monokai', { 'as': 'colo-monokai' }
 Plug 'patstockwell/vim-monokai-tasty', { 'as': 'colo-monokai-tasty' }
 Plug 'erichain/vim-monokai-pro', { 'as': 'colo-monokai-pro' }
@@ -531,6 +539,23 @@ function! SchemeBefore()
     let g:molokai_original=0
     let g:rehash256=0
     let g:molokai_terminal=0
+    let g:PaperColor_Theme_Options = {
+      \   'theme': {
+      \     'default': {
+      \       'transparent_background': 1,
+      \       'allow_bold' : 1,
+      \       'allow_italic' : 0,
+      \     },
+      \     'default.light--' : {
+      \       'override' : {
+      \         'color00' : ['#ffffff', '255'],
+      \       }
+      \     }
+      \   }
+      \ }
+    let g:two_firewatch_italics=0
+    let g:github_colors_soft = 0
+    let g:github_colors_block_diffmark = 0
 endfunction
 function! SchemeAfter()
     " increase visibility of stray whitespace
@@ -539,6 +564,11 @@ function! SchemeAfter()
     else
         hi Whitespace guifg=#000000
     endif
+    if &background == "light"
+        " set white background by default
+        hi Normal guibg=#FFFFFF ctermbg=255 guifg=#333333 ctermfg=0
+    endif
+
     " tweaks for molokai:
     if g:colors_name =~ "molokai"
         hi Normal       guifg=#FFFFFF   guibg=#1C1C1C
@@ -590,6 +620,13 @@ function! SchemeAfter()
         hi link NERDTreeLinkTarget   Directory
     endif
 
+    " tweaks for papercolor
+    if (g:colors_name =~ "papercolor") && (&background == "light")
+        hi Comment          guifg=#979797 ctermfg=4
+        hi CursorLine       guibg=#EEEEEE
+        " hi Operator         gui=bold
+    endif
+
 
     " LSP
     hi lspReference ctermfg=red guifg=red ctermbg=green guibg=green
@@ -603,10 +640,12 @@ function! SchemeAfter()
         hi ALEErrorSign guibg=DarkRed ctermbg=DarkRed
         hi ALEVirtualTextError guibg=DarkRed ctermbg=DarkRed
     else
-        hi ALEWarning guifg=Magenta ctermfg=Magenta gui=bold
-        hi ALEWarningSign guifg=Magenta ctermfg=Magenta gui=bold
-        hi ALEError guifg=Red ctermfg=Red gui=bold
+        hi ALEWarning guibg=NONE ctermbg=NONE  guisp=Magenta gui=undercurl
+        hi ALEWarningSign guifg=Magenta ctermfg=Magenta
+        hi ALEVirtualTextWarning guifg=Magenta ctermfg=Magenta
+        hi ALEError guibg=NONE ctermbg=NONE guisp=Red gui=undercurl
         hi ALEErrorSign guifg=Red ctermfg=Red gui=bold
+        hi ALEVirtualTextError guifg=Red ctermfg=Red gui=bold
     endif
 endfunction
 
@@ -626,7 +665,11 @@ endfunction
 function! SchemeLight()
     set background=light
     call SchemeBefore()
-    colo base16-ia-light
+    colo hemisu
+    " colo github
+    " colo papercolor
+    " colo two-firewatch
+    " colo base16-ia-light
     " colo base16-summerfruit-light
     call SchemeAfter()
 endfunction
