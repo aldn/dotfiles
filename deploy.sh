@@ -40,4 +40,5 @@ else
     echo "ln: .vim: directory exists"
 fi
 ln -s .cfg/zsh/zshrc .zshrc
+ln -s .cfg/zsh/zprofile .zprofile
 

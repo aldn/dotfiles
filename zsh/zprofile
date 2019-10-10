@@ -1,0 +1,1 @@
+[[ -e ~/.cfg/env/vars ]] && emulate sh -c 'source ~/.cfg/env/vars'

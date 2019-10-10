@@ -48,7 +48,7 @@ source_env_file() {
     [[ -e ~/.cfg/env/$1 ]] && emulate sh -c 'source ~/.cfg/env/$1'
 }
 
-source_env_file vars
+# source_env_file vars
 source_env_file aliases
 source_env_file subs
 
