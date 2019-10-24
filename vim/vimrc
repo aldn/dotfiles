@@ -393,7 +393,8 @@ Plug 'rakr/vim-two-firewatch', { 'as': 'colo-two-firewatch' }
 Plug 'cormacrelf/vim-colors-github', { 'as': 'colo-github' }
 
 Plug 'sickill/vim-monokai', { 'as': 'colo-monokai' }
-Plug 'patstockwell/vim-monokai-tasty', { 'as': 'colo-monokai-tasty' }
+" Plug '~/source/repos/vim-monokai-tasty', { 'as': 'colo-monokai-tasty' }
+Plug 'aldn/vim-monokai-tasty', { 'as': 'colo-monokai-tasty' }
 Plug 'erichain/vim-monokai-pro', { 'as': 'colo-monokai-pro' }
 Plug 'erichdongubler/vim-sublime-monokai', { 'as': 'colo-monokai-sublime' }
 
@@ -568,7 +569,8 @@ function! SchemeBefore()
 endfunction
 function! SchemeAfter()
     " use normal colors for read-only files in NERDTree
-    hi link NERDTreeRO NERDTreeFile
+    " hi link NERDTreeRO NERDTreeFile
+
     " increase visibility of stray whitespace
     if &background == "dark"
         hi Whitespace guifg=#FFFFFF
@@ -623,11 +625,16 @@ function! SchemeAfter()
         hi StatusLine ctermbg=255 ctermfg=232 cterm=bold guifg=#000000 guibg=#cccccc guisp=NONE gui=bold
         hi StatusLineNC ctermbg=244 ctermfg=235 cterm=NONE guifg=#222222 guibg=#666666 guisp=NONE gui=NONE
         hi ErrorMsg guibg=#e14a6f
-
+        hi PreProc ctermfg=204 guifg=#fd6389
         hi Function ctermfg=155 guifg=#aadb7b
+        hi Repeat ctermfg=204 guifg=#fd6389
+        hi Statement gui=bold
+        hi Conditional gui=bold
+        hi Repeat gui=bold
         hi link rubyFunction              Function
         hi link javascriptFunction        Function
         hi link javascriptRailsFunction   Function
+        hi link cssFunctionName           Function
         hi link cssFunctionName           Function
 
         " make NERDTree directory colors consistent with ranger
@@ -675,7 +682,8 @@ function! SchemeDark()
     " colo molokayo
     " colo harlequin
     " colo monokai
-    colo monokai_pro
+    " colo monokai_pro
+    colo vim-monokai-tasty
     " colo noctu
     " colo gruvbox
     call SchemeAfter()
