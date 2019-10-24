@@ -690,26 +690,6 @@ if isdirectory(g:plug_home)
     :Dark
 endif
 
-if has("gui")
-    set guioptions=c          " use console dialogs
-end
-
-if has("gui_macvim")
-    set guifont=Inconsolata:h14,Menlo:h12
-    set fuoptions=maxvert,maxhorz
-    noremap  <F1> :set invfullscreen<CR>
-    inoremap <F1> <ESC>:set invfullscreen<CR>a
-end
-
-if has("gui_gtk3")
-    "set guifont=Inconsolata\ LGC\ 9
-    set guifont=Monospace\ 9
-end
-
-if has("gui_win32")
-    set guifont=Menlo:h9,Inconsolata:h11
-end
-
 
 "------------------------------------------------------------------------------
 " Commands
