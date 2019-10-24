@@ -228,6 +228,13 @@ let g:mergetool_layout = 'mr'
 let g:mergetool_prefer_revision = 'local'
 
 
+Plug 'andymass/vim-matchup'
+let g:matchup_matchparen_offscreen = {}
+let g:matchup_matchparen_deferred = 1
+let g:matchup_matchparen_deferred_show_delay = 5
+let g:matchup_matchparen_deferred_hide_delay = 5
+let g:matchup_matchparen_hi_surround_always = 1
+
 """""""""""""""""""" LSP client plugins """"""""""""""""""""
 
 " PREREQUISITES:
