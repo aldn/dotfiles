@@ -163,7 +163,7 @@ let g:SuperTabDefaultCompletionType = "<c-n>"
 let g:SuperTabContextDefaultCompletionType = "<c-n>"
 
 
-Plug 'bfrg/vim-cpp-modern'
+" Plug 'bfrg/vim-cpp-modern'
 " Disable function highlighting (affects both C and C++ files)
 " let g:cpp_no_function_highlight = 1
 "
@@ -172,7 +172,12 @@ Plug 'bfrg/vim-cpp-modern'
 " let g:cpp_simple_highlight = 1
 
 " Enable highlighting of named requirements (C++20 library concepts)
-let g:cpp_named_requirements_highlight = 1
+" let g:cpp_named_requirements_highlight = 1
+
+" Plug 'sheerun/vim-polyglot', { 'commit': '31c55b8' }
+" Plug 'octol/vim-cpp-enhanced-highlight'
+" Plug 'vim-python/python-syntax'
+Plug 'Vimjas/vim-python-pep8-indent'
 
 
 Plug 'terryma/vim-multiple-cursors'
