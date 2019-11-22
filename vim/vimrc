@@ -414,10 +414,15 @@ endif
 " Plug 'nielsmadan/harlequin', { 'as': 'colo-harlequin' }
 " Plug 'chriskempson/base16-vim', { 'as': 'colo-base16' }
 
+Plug 'sickill/vim-monokai', { 'as': 'colo-monokai' }
+Plug 'groovyo/vim-monokai-tasty', { 'as': 'colo-monokai-tasty' }
+Plug 'erichain/vim-monokai-pro', { 'as': 'colo-monokai-pro' }
+Plug 'erichdongubler/vim-sublime-monokai', { 'as': 'colo-monokai-sublime' }
+
 Plug 'tomasr/molokai', { 'as': 'colo-molokai' }
 Plug 'fmoralesc/molokayo', { 'as': 'colo-molokayo' }
 Plug 'fcevado/molokai_dark', { 'as': 'colo-molokai_dark' }
-Plug 'aldn/molokai-zhou13', { 'as': 'colo-molokai-zhou13' }
+Plug 'groovyo/molokai-zhou13', { 'as': 'colo-molokai-zhou13' }
 
 Plug 'morhetz/gruvbox', { 'as': 'colo-gruvbox' }
 " also see https://github.com/morhetz/gruvbox-contrib for terminal theme
@@ -426,13 +431,14 @@ Plug 'noahfrederick/vim-noctu', { 'as': 'colo-noctu' }
 Plug 'noahfrederick/vim-hemisu', { 'as': 'colo-hemisu' }
 Plug 'NLKNguyen/papercolor-theme', { 'as': 'colo-papercolor' }
 Plug 'rakr/vim-two-firewatch', { 'as': 'colo-two-firewatch' }
+
+" older version
+" Plug 'endel/vim-github-colorscheme', { 'as': 'colo-github' }
+" 2018 version
 Plug 'cormacrelf/vim-colors-github', { 'as': 'colo-github' }
 
-Plug 'sickill/vim-monokai', { 'as': 'colo-monokai' }
-" Plug '~/source/repos/vim-monokai-tasty', { 'as': 'colo-monokai-tasty' }
-Plug 'aldn/vim-monokai-tasty', { 'as': 'colo-monokai-tasty' }
-Plug 'erichain/vim-monokai-pro', { 'as': 'colo-monokai-pro' }
-Plug 'erichdongubler/vim-sublime-monokai', { 'as': 'colo-monokai-sublime' }
+Plug 'severij/vadelma', { 'as': 'colo-vadelma' }
+Plug 'sainnhe/edge', { 'as': 'colo-edge' }
 
 call plug#end()
 
@@ -600,12 +606,21 @@ function! SchemeBefore()
       \   }
       \ }
     let g:two_firewatch_italics=0
-    let g:github_colors_soft = 0
+    " 0 = more blocky diff markers in signcolumn (e.g. GitGutter)
     let g:github_colors_block_diffmark = 0
+    " 1 = use a slightly darker background, like Github inline code blocks
+    let g:github_colors_soft = 1
 endfunction
+
 function! SchemeAfter()
     " use normal colors for read-only files in NERDTree
     " hi link NERDTreeRO NERDTreeFile
+
+
+    " Blue status line
+    hi StatusLine   guifg=#FFFFF6   guibg=#007ACC   gui=bold
+    hi StatusLineNC guifg=#222222   guibg=#BBBBBB   gui=bold
+
 
     " increase visibility of stray whitespace
     if &background == "dark"
@@ -613,23 +628,21 @@ function! SchemeAfter()
     else
         hi Whitespace guifg=#000000
     endif
-    if &background == "light"
-        " set white background by default
-        hi Normal guibg=#FFFFFF ctermbg=255 guifg=#333333 ctermfg=0
-    endif
+    " if &background == "light"
+    "     " set white background by default
+    "     hi Normal guibg=#FFFFFF ctermbg=255 guifg=#333333 ctermfg=0
+    " endif
 
     " tweaks for molokai:
     if g:colors_name =~ "molokai"
-        hi Normal       guifg=#FFFFFF   guibg=#1C1C1C
-        hi StatusLine   guifg=fg        guibg=bg
-        hi StatusLineNC guibg=#858585   guifg=#404040
-        hi CursorLine                   guibg=#101010
-        hi CursorLineNr guifg=#FD971F   guibg=#101010
-        hi LineNr       guifg=#555555   guibg=#1C1C1C
+        hi Normal       guifg=#FFFFF6   guibg=#1B1D1E
+        hi CursorLine   guibg=#303030
+        hi CursorLineNr guifg=#FD971F   guibg=#303030
+        hi LineNr       guifg=#74746E   guibg=#232526
         hi MatchParen   guifg=#FD971F   guibg=bg        gui=bold,underline
         hi TabLine      guifg=#FD971F   guibg=bg        gui=bold
         hi TabLineSel   guibg=#FD971F   guifg=bg
-        hi Comment      guifg=#858585
+        hi VertSplit    guifg=#43443E   guibg=bg
     endif
 
     " tweaks for neg
@@ -658,8 +671,8 @@ function! SchemeAfter()
         hi CursorLine guibg=#333333 ctermbg=236
         hi LineNr guifg=#606060
         hi CursorLineNr guibg=#333333
-        hi StatusLine ctermbg=255 ctermfg=232 cterm=bold guifg=#000000 guibg=#cccccc guisp=NONE gui=bold
-        hi StatusLineNC ctermbg=244 ctermfg=235 cterm=NONE guifg=#222222 guibg=#666666 guisp=NONE gui=NONE
+        " hi StatusLine ctermbg=255 ctermfg=232 cterm=bold guifg=#000000 guibg=#cccccc guisp=NONE gui=bold
+        " hi StatusLineNC ctermbg=244 ctermfg=235 cterm=NONE guifg=#222222 guibg=#666666 guisp=NONE gui=NONE
         hi ErrorMsg guibg=#e14a6f
         hi PreProc ctermfg=204 guifg=#fd6389
         hi Function ctermfg=155 guifg=#aadb7b
@@ -712,32 +725,33 @@ endfunction
 
 function! SchemeDark()
     set background=dark
-    call SchemeBefore()
     " colo molokai
-    " colo molokai-zhou13
     " colo molokayo
     " colo harlequin
     " colo monokai
     " colo monokai_pro
-    colo vim-monokai-tasty
+    " colo vim-monokai-tasty
+    colo sublimemonokai
     " colo noctu
     " colo gruvbox
-    call SchemeAfter()
+    " colo edge
 endfunction
 function! SchemeLight()
     set background=light
-    call SchemeBefore()
-    colo hemisu
-    " colo github
+    " colo hemisu
+    colo github
     " colo papercolor
     " colo two-firewatch
     " colo base16-ia-light
     " colo base16-summerfruit-light
-    call SchemeAfter()
 endfunction
 com! Light call SchemeLight()
 com! Dark call SchemeDark()
-"""""
+augroup ColorSchemes
+    au!
+    au ColorSchemePre * call SchemeBefore()
+    au ColorScheme * call SchemeAfter()
+augroup END
 
 if isdirectory(g:plug_home) " VimPlug has synced the plugins already?
     :Dark
@@ -1008,6 +1022,7 @@ nnoremap <leader>cd :call NERDCommenterSwitchDoxygenMode()<cr>
 " Neomake
 nnoremap <leader>b :Neomake!<space>
 
+" F10 shows highlight group of item under cursor
 map <F10> :echo "hi<" . synIDattr(synID(line("."),col("."),1),"name") . '> trans<'
 \ . synIDattr(synID(line("."),col("."),0),"name") . "> lo<"
 \ . synIDattr(synIDtrans(synID(line("."),col("."),1)),"name") . ">"<CR>
