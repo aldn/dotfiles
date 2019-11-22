@@ -179,11 +179,9 @@ Plug 'terryma/vim-multiple-cursors'
 
 Plug 'editorconfig/editorconfig-vim'
 
-"Plug 'vim-airline/vim-airline'
-let g:airline_molokai_bright = 1
-"Plug 'aldn/vim-airline-theme-molokai-tweaks'
-"Plug 'vim-airline/vim-airline-themes'
-"let g:airline_theme = 'molokai'
+" Plug 'vim-airline/vim-airline'
+let g:airline_theme = 'monokai_tasty'
+let g:airline_statusline_ontop = 0
 
 " display tab bar
 let g:airline#extensions#tabline#enabled = 0
