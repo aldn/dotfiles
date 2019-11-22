@@ -290,7 +290,7 @@ if 0
 endif
 
 
-if 1
+if 0
     " Plug 'w0rp/ale', { 'commit': '80ef7ea2d0b22f0d8de7387a3d5bf6e9e5b72e9d' }
     Plug 'w0rp/ale'
     " problem reporting style:
@@ -311,6 +311,11 @@ if 1
         \ 'c': ['clangd'],
         \ 'cpp': ['clangd'],
         \ 'python': ['pyls'],
+        \ }
+
+    let g:ale_fixers = {
+        \ 'c': ['clang-format'],
+        \ 'cpp': ['clang-format'],
         \ }
     if has('win32')
         let s:clangd_log = 'd:/clangd.log'
@@ -368,6 +373,27 @@ if 0
             \ })
     endif
 endif
+
+
+if 1
+    if has('win32')
+        let LanguageClientInstallCmd = 'powershell -File install.ps1'
+    else
+        let LanguageClientInstallCmd = 'bash install.sh'
+    endif
+
+    Plug 'autozimu/LanguageClient-neovim', {
+                \ 'branch': 'next',
+                \ 'do': LanguageClientInstallCmd,
+                \ }
+    let g:LanguageClient_serverCommands = {
+        \ 'c': ['clangd'],
+        \ 'cpp': ['clangd'],
+        \ 'python': ['pyls'],
+        \ 'rust': ['rustup', 'run', 'stable', 'rls'],
+        \ }
+endif
+
 
 """"""""""""""""" color schemes """"""""""""""""""
 
@@ -913,14 +939,21 @@ nnoremap <leader>ev <C-w><C-v><C-l>:e <C-r>=g:myvimrc<cr><cr>
 
 
 " code navigation and refactoring
-nnoremap <silent> <C-k> <Plug>(ale_previous_wrap)
-nnoremap <silent> <C-j> <Plug>(ale_next_wrap)
+" nnoremap <silent> <C-k> <Plug>(ale_previous_wrap)
+" nnoremap <silent> <C-j> <Plug>(ale_next_wrap)
 
-nnoremap <leader>gg :ALEGoToDefinition<cr>
-nnoremap <leader>gr :ALEFindReferences<cr>
-nnoremap <leader>gi :ALEHover<cr>
-nnoremap <leader>gs :ALESymbolSearch<cr>
-nnoremap <leader>gf :ALEFix<cr>
+" nnoremap <leader>gg :ALEGoToDefinition<cr>
+" nnoremap <leader>gr :ALEFindReferences<cr>
+" nnoremap <leader>gi :ALEHover<cr>
+" nnoremap <leader>gs :ALESymbolSearch<cr>
+" nnoremap <leader>gf :ALEFix<cr>
+
+nnoremap <silent> K :call LanguageClient#textDocument_hover()<CR>
+nnoremap <silent> <leader>gg :call LanguageClient#textDocument_definition()<CR>
+nnoremap <silent> <leader>gi :call LanguageClient#textDocument_implementation()<CR>
+nnoremap <silent> <leader>gr :call LanguageClient#textDocument_references()<CR>
+nnoremap <F5> :call LanguageClient_contextMenu()<CR>
+nnoremap <silent> <F2> :call LanguageClient#textDocument_rename()<CR>
 
 
 " fswitch
