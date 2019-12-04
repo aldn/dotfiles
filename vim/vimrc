@@ -405,6 +405,9 @@ if 1
 endif
 
 
+Plug 'sakhnik/nvim-gdb', { 'do': ':!./install.sh \| UpdateRemotePlugins' }
+
+
 """"""""""""""""" color schemes """"""""""""""""""
 
 " Plug 'flazz/vim-colorschemes'
