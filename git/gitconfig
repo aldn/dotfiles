@@ -1,6 +1,6 @@
 [user]
-    name = Oleksandr Dunayevskyy
-    email = oleksandr.dunayevskyy@gmail.com
+    name = Oleksandr Dunaievskyi
+    email = groovyo@firemail.cc
 [core]
     excludesfile = ~/.cfg/git/gitignore_global
 [difftool "sourcetree"]
